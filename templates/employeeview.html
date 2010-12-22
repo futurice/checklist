@@ -10,11 +10,11 @@ $.log = function(message){
 $(document).ready(function(){
 
    $('form.autosave#headerform').autosave({
-      url: 'http://localhost:8000/checklist/update/employeeinfo/{{ employee.id }}', 
+      url: '/checklist/update/employeeinfo/{{ employee.id }}', 
       interval:       500,
     });
     $('form.autosave#listform').autosave({
-      url: 'http://localhost:8000/checklist/update/employeelist/{{ employee.id }}', 
+      url: '/checklist/update/employeelist/{{ employee.id }}', 
       interval: 500
     });
  

@@ -78,7 +78,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'checklist.urls'
 
 TEMPLATE_DIRS = (
-    "/home/ojar/checklist/templates"
+    "/home/checklist/checklist/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

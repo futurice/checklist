@@ -18,6 +18,8 @@ class Employee(models.Model):
     name = models.CharField(max_length=100)
     start_date = models.DateField()
     confirmed = models.BooleanField(default=False)
+    class Meta:
+        ordering = ('start_date', 'name')
 
 class EmployeeItem(models.Model):
     listname = models.ForeignKey('Checklist')
