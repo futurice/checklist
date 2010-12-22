@@ -1,0 +1,307 @@
+- model: employee.Checklist
+  pk: 1
+  fields:
+    listname: New Employee
+
+- model: employee.ChecklistItem
+  pk: 1
+  fields:
+    listname: 1
+    itemname: NDA
+    textbox: False
+    order: 1
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 2
+  fields:
+    listname: 1
+    itemname: Job contract
+    textbox: False
+    order: 3
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 3
+  fields:
+    listname: 1
+    itemname: Introduction schedule
+    textbox: False
+    order: 3
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 4
+  fields:
+    listname: 1
+    itemname: Who is supervisor
+    textbox: True
+    order: 4
+    unit: HR
+
+- model: employee.ChecklistItem
+  pk: 5
+  fields:
+    listname: 1
+    itemname: Sitting place
+    textbox: True
+    order: 5
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 6
+  fields:
+    listname: 1
+    itemname: Table
+    textbox: False
+    order: 6
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 7
+  fields:
+    listname: 1
+    itemname: Chair
+    textbox: False
+    order: 7
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 8
+  fields:
+    listname: 1
+    itemname: Ergocheck scheduled
+    textbox: False
+    order: 8
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 9
+  fields:
+    listname: 1
+    itemname: Ergocheck
+    textbox: False
+    order: 9
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 10
+  fields:
+    listname: 1
+    itemname: Mobile phone model
+    textbox: True
+    order: 10
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 11
+  fields:
+    listname: 1
+    itemname: Mobile phone ordered
+    textbox: False
+    order: 11
+    unit: IT
+
+- model: employee.ChecklistItem
+  pk: 12
+  fields:
+    listname: 1
+    itemname: Mobile phone arrived
+    textbox: False
+    order: 12
+    unit: IT
+
+- model: employee.ChecklistItem
+  pk: 13
+  fields:
+    listname: 1
+    itemname: Computer model
+    textbox: True
+    order: 13
+    unit: IT
+
+- model: employee.ChecklistItem
+  pk: 14
+  fields:
+    listname: 1
+    itemname: Computer ordered 
+    textbox: False
+    order: 14
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 15
+  fields:
+    listname: 1
+    itemname: Computer arrived
+    textbox: False
+    order: 15
+    unit: IT
+
+- model: employee.ChecklistItem
+  pk: 16
+  fields:
+    listname: 1
+    itemname: Computer setup done
+    textbox: False
+    order: 16
+    unit: IT
+
+- model: employee.ChecklistItem
+  pk: 17
+  fields:
+    listname: 1
+    itemname: LDAP account
+    textbox: False
+    order: 17
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 18
+  fields:
+    listname: 1
+    itemname: Email account
+    textbox: False
+    order: 18
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 19
+  fields:
+    listname: 1
+    itemname: Email lists
+    textbox: False
+    order: 19
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 20
+  fields:
+    listname: 1
+    itemname: Severa account
+    textbox: False
+    order: 20
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 21
+  fields:
+    listname: 1
+    itemname: IT introduction
+    textbox: False
+    order: 22
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 23
+  fields:
+    listname: 1
+    itemname: Electronic key
+    textbox: False
+    order: 23
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 24
+  fields:
+    listname: 1
+    itemname: Phone subscription
+    textbox: False
+    order: 24
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 25
+  fields:
+    listname: 1
+    itemname: Diacor information
+    textbox: False
+    order: 25
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 26
+  fields:
+    listname: 1
+    itemname: Personnel database
+    textbox: False
+    order: 26
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 27
+  fields:
+    listname: 1
+    itemname: Birthday database
+    textbox: False
+    order: 27
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 28
+  fields:
+    listname: 1
+    itemname: Salary database
+    textbox: False
+    order: 28
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 29
+  fields:
+    listname: 1
+    itemname: Working hours database
+    textbox: False
+    order: 29
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 30
+  fields:
+    listname: 1
+    itemname: Information to payroll
+    textbox: False
+    order: 30
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 31
+  fields:
+    listname: 1
+    itemname: Lunch coupons
+    textbox: False
+    order: 31
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 32
+  fields:
+    listname: 1
+    itemname: Ilmoittautuminen lomake
+    textbox: False
+    order: 32
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 33
+  fields:
+    listname: 1
+    itemname: IF (Insurance)
+    textbox: False
+    order: 33
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 34
+  fields:
+    listname: 1
+    itemname: Business cards
+    textbox: False
+    order: 34
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 35
+  fields:
+    listname: 1
+    itemname: Occupational Health diploma (Työterveystodistus)
+    textbox: False
+    order: 35
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 36
+  fields:
+    listname: 1
+    itemname: Tax card
+    textbox: False
+    order: 36
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 37
+  fields:
+    listname: 1
+    itemname: Mechanical keys
+    textbox: False
+    order: 37
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 37
+  fields:
+    listname: 1
+    itemname: Display, keyboard, mouse ordered
+    textbox: False
+    order: 10
+    unit: IT

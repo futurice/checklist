@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul>
+{% for list in lists %}
+ <li><a href="/checklist/listview/{{ list.id }}">{{ list.listname }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table>
+<form action="/checklist/new_employee" method="post">
+{% csrf_token %}
+{{ form }}
+<tr>
+<td></td>
+<td><input type="submit" value="Submit" name="submit"></td>
+</tr>
+</form>
+</table>
+{% endblock %}

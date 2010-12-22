@@ -1,0 +1,42 @@
+<html>
+<head>
+<title></title>
+<script src="/static/jquery-1.4.2.js" type="text/javascript"></script>
+<script src="/static/jquery.autosave.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/static/screen.css" /> 
+</head>
+<body>
+	<body> 
+		<div id="authbar"> 
+	        ojar
+		</div> 
+ 
+		<div id="titlebar"> 
+            <div id="futurice-logo"> 
+                <div class="rounded-bar"><div class="corner left"></div><div class="corner right"></div><div class="center"></div></div> 
+                <a href="/checklist/"><div class="icon"><image src="/static/images/futurice_logo.png"/></a></div></div> 
+			<h1>Checklists</h1> 
+		</div> 
+ 
+		<ul id="toolbar"> 
+			<li><a class="menutitle" href="/checklist/">Front page</a></li> 
+			<li><a href="/checklist/new_employee">Add new employee</a></li> 
+			
+		</ul> 
+ 
+        
+            
+        
+        
+                </ul> 
+            </div> 
+		</div> 
+        
+ 
+ 
+		<div id="content"> 
+{% block content %}
+{% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ listname }}</h1>
+
+<ul>
+{% for employee in employees %}
+ <li><a href="/checklist/employeeview/{{ employee.id }}">{{ employee.name }} {{ employee.start_date|date:"Y-m-d" }} ({% if employee.confirmed %}confirmed{% else %}not confirmed{% endif %})</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
