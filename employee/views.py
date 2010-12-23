@@ -17,8 +17,9 @@ def indexview(request, template_name):
 
 def employeelist(request, template_name, list_id):
     print list_id
-    employees = Employee.objects.filter(listname=list_id)
-    return render_to_response(template_name, {'employees': employees}, context_instance=RequestContext(request))
+    employees = Employee.objects.filter(listname=list_id,deleted=False,archived=False)
+    employees_archived = Employee.objects.filter(listname=list_id,deleted=False,archived=True)
+    return render_to_response(template_name, {'employees': employees, 'archived': employees_archived }, context_instance=RequestContext(request))
 
 def employeeview(request, template_name, employee_id):
     employee = Employee.objects.get(id=employee_id)
@@ -96,6 +97,13 @@ def update_employeeinfo(request, template_name, employee_id):
             employee.confirmed = False
     else:
         employee.confirmed = False
+    if request.POST.has_key("archived"):
+        if request.POST["archived"] == 'on':
+            employee.archived = True
+        else:
+            employee.archived = False
+    else:
+        employee.archived = False
     employee.start_date = datetime.strptime(request.POST["date"], "%Y-%m-%d")
     print employee.start_date
 

@@ -305,3 +305,92 @@
     textbox: False
     order: 10
     unit: IT
+- model: employee.ChecklistItem
+  pk: 38
+  fields:
+    listname: 1
+    itemname: Credit card papers
+    textbox: False
+    order: 38
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 39
+  fields:
+    listname: 1
+    itemname: Photo for the badge
+    textbox: False
+    order: 39
+    unit: IT
+- model: employee.ChecklistItem
+  pk: 40
+  fields:
+    listname: 1
+    itemname: Mentor/work instructor
+    textbox: False
+    order: 40
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 41
+  fields:
+    listname: 1
+    itemname: Futupeople newsletter
+    textbox: False
+    order: 41
+    unit: HR
+
+- model: employee.ChecklistItem
+  pk: 42
+  fields:
+    listname: 1
+    itemname: Meeting for signing contracts
+    textbox: False
+    order: 1
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 43
+  fields:
+    listname: 1
+    itemname: Short description to FutuPeople infomail to Lenita
+    textbox: False
+    order: 1
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 44
+  fields:
+    listname: 1
+    itemname: Team introduction
+    textbox: False
+    order: 44
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 45
+  fields:
+    listname: 1
+    itemname: Own task introduction
+    textbox: False
+    order: 45
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 46
+  fields:
+    listname: 1
+    itemname: Feedback discussion times agreed (1st month, 3rd month)
+    textbox: False
+    order: 46
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 47
+  fields:
+    listname: 1
+    itemname: First feedback discussion finished (1st month)
+    textbox: False
+    order: 47
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 48
+  fields:
+    listname: 1
+    itemname: Second feedback discussion finished (3rd month)
+    textbox: False
+    order: 48
+    unit: Supervisor

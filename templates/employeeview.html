@@ -25,7 +25,10 @@ $(document).ready(function(){
 <h1>{{ employee.name }}</h1>
 
 <form method="post" action="?" class="autosave" id="headerform">
-<p>Start date: <input class="autosave" type="text" id="date" name="date" value="{{ employee.start_date|date:"Y-m-d" }}">. Confirmed: <input class="autosave" type="checkbox" id="confirmed" name="confirmed" {% if employee.confirmed %}checked="checked"{% endif %}></p>
+<p>Start date: <input class="autosave" type="text" id="date" name="date" value="{{ employee.start_date|date:"Y-m-d" }}">. 
+Confirmed: <input class="autosave" type="checkbox" id="confirmed" name="confirmed" {% if employee.confirmed %}checked="checked"{% endif %}>.
+Archived: <input class="autosave" type="checkbox" id="archived" name="archived" {% if employee.archived %}checked="checked"{% endif %}>.
+</p>
 </form>
 
 <form method="post" action="?" class="autosave" id="listform">
