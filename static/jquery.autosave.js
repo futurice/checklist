@@ -1,136 +1,175 @@
 /**
- * jQuery Autosave 1.1.0
+ * jQuery Plugin Autosave
  *
- * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
- * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
+ * @author Raymond Julin (raymond[dot]julin[at]gmail[dot]com)
+ * @author Mads Erik Forberg (mads[at]hardware[dot]no)
+ * @author Simen Graaten (simen[at]hardware[dot]no)
  *
- * Written by Stan Lemon <stosh1985@gmail.com>
- * Last updated: 2010.03.08
+ * Licensed under the MIT License
  *
- * jQuery Autosave monitors the state of a form and detects when changes occur.
- * When changes take place to the form it then triggers an event which allows for
- * a develop to integrate hooks for autosaving content.
+ * Usage: 
+ * $("input.autosave").autosave({ 
+ *     url: url, // Defaults to parent form url or window.location.href
+ *     method: "post",  // Defaults to parent form url or get
+ *     grouped: true, // Defaults to false. States whether all selected fields should be sent in the request or only the one it was triggered upon
+ *     success: function(data) { 
+ *         console.log(data); 
+ *     },
+ *     send: function(eventTriggeredByNode) { 
+ *         // Do stuff while we wait for the ajax response, defaults to doing nothing
+ *         console.log("Saving");
+ *     },
+ *     error: function(xmlReq, text, errorThrown) { 
+ *         // Handler if the ajax request fails, defaults to console.log-ing the ajax request scope
+ *         console.log(text);
+ *     },
+ *     dataType: "json" // Defaults to JSON, but can be XML, HTML and so on
+ * });
  *
- * Changes in 1.1.0:
- * - Simplified plugin by eliminating additional monitor.
- * - Added isDirty() method
- * - Uses serialization from jQuery 1.4.2 and no longer needs the form plugin.
+ * $("form#myForm").autosave(); // Submits entire form each time one of the 
+ *                              // elements are changed, except buttons and submits
+ *
+ *
+ * Todo:
+ * - Support timed autosave for textareas
  */
+
 (function($) {
+    $.fn.autosave = function(options) {
+        /**
+         * Define some needed variables
+         * elems is a shortcut for the selected nodes
+         * nodes is another shortcut for elems later (wtf)
+         * eventName will be used to set what event to connect to
+         */
+        var elems = $(this), nodes = $(this), eventName;
 
-	$.fn.autosave = function(o) {
-		var o = $.extend({}, $.fn.autosave.defaults, o);
-		var saver;
-		var self = this;
+        options = $.extend({
+            grouped: false,
+            send: false, // Callback
+            error: false, // Callback
+            success: false, // Callback
+            dataType: "json" // From ajax return point
+        }, options);
+        
+        /**
+         * If the root form is used as selector
+         * bind to its submit and find all its
+         * input fields and bind to them
+         */
+        if ($(this).is('form')) {
+            /* Group all inputelements in this form */
+            options.grouped = true;
+            elems = nodes = $(this).find(":input,button");
+            // Bind to forms submit
+            $(this).bind('submit', function(e) {
+                e.preventDefault();
+                $.fn.autosave._makeRequest(e, nodes, options, $(this));
+            });
+        }
+        /**
+         * For each element selected (typically a list of form elements
+         * that may, or may not, reside in the same form
+         * Build a list of these nodes and bind them to some
+         * onchange/onblur events for submitting
+         */
+        elems.each(function(i) {
+            eventName = $(this).is('button,:submit') ? 'click' : 'change';
+            $(this).bind(eventName, function (e) {
+                eventName == 'click' ? e.preventDefault() : false;
+                $.fn.autosave._makeRequest(e, nodes, options, this);
+            });
+        });
+        return $(this);
+    }
+    
+    /**
+     * Actually make the http request
+     * using previously supplied data
+     */
+    $.fn.autosave._makeRequest = function(e, nodes, options, actsOn) {
+        // Keep variables from global scope
+        var vals = {}, form;
+        /**
+         * Further set default options that require
+         * to actually inspect what node autosave was triggered upon
+         * Defaults:
+         *  -method: post
+         *  -url: Will default to parent form if one is found,
+         *        if not it will use the current location
+         */
+        form = $(actsOn).is('form') ? $(actsOn) : $(actsOn.form);
+        options = $.extend({
+            url: (form.attr('action'))? form.attr('action') : window.location.href,
+            method: (form.attr('method')) ? form.attr('method') : "post"
+        }, options);
 
-		$(this).addClass('autosave');
-
-		this.bind('autosave.setup', function(){
-			o.setup.apply( self.element , [self.element,o] );
-
-			// Start by recording the current state of the form for comparison later
-			$(this).trigger('autosave.record');
-
-			// Fire off the autosave at an interval
-			saver = setInterval( function() {
-				$(self).trigger('autosave.save');
-			}, o.interval);
-
-		}).bind('autosave.shutdown', function() {
-			o.shutdown.apply( this.element , [this.element,o] );
-
-			clearInterval(saver);
-
-		    // We'll call a synchronous ajax request to autosave the form before we move on.
-		    // It's synchronous so that the browser will not move on without first completing
-		    // the autosave request.
-			if ( $(this).data('autosave.dirty') == true )
-			    $(this).trigger('autosave.save', [false]);
-		
-			$(this).removeClass('autosave').unbind('autosave');
-			$(this).data('autosave.form', null);
-			$(this).data('autosave.dirty', null);
-
-		}).bind('autosave.reset', function() {
-			$(this).trigger('autosave.shutdown');
-			$(this).trigger('autosave.setup');
-
-		}).bind('autosave.record', function() {
-			o.record.apply( this.element , [this.element,o] );
-
-			$(this).data('autosave.dirty', false);
- 			$(this).data('autosave.form', $(this).find(o.data).not('.autosave\-ignore').serializeArray());
-
-		}).bind('autosave.save', function(e, async) {
-			if ( !o.before.apply( self , [self,o]) )
-				return;
-
-			if ( !o.validate.apply( self , [self,o]) )
-				return;
-
-			var data = $(this).find(o.data).not('.autosave\-ignore').serializeArray();
-
-			// If the form is dirty and there is not already an active execution of the autosaver.
-			if ( $.param(data) != $.param($(this).data('autosave.form')) && $(this).data('autosave.active') != true ) {
-				$(this).data('autosave.active', true);
-
-				var callback = function(response){
-					$(self).data('autosave.active', false);
-					$(self).trigger('autosave.record');
-					
-					o.save.apply( self , [self,o,response] );
-				};
-
-				if (o.url != undefined && $.isFunction(o.url)) {
-					o.url.apply( self.element , [self.element,o,data,callback] );
-				} else {
-					$.ajax({
-					    async: 	(async == undefined) ? true : async,
-						url: 	(o == undefined || o.url == undefined) ? $(this).attr('action') : o.url,
-						type: 	'post',
-						data: 	data,
-						success: callback
-					});
-				}
-			}
-		}).trigger('autosave.setup');
-
-		return this;
-	};
-
-	$.fn.isDirty = function() {
-		if ( $(this).data('autosave.dirty') == true ) {
-			return true;
-		} else {
-			if ( $(this).data('autosave.form') == undefined )
-				return false;
-			return !( $.param($(this).data('autosave.form')) == $.param($(this).find('input,select,textarea').not('.autosave\-ignore').serializeArray()) );
-		}
-	};
-
-	$.fn.autosave.defaults = {
-		/** Saving **/
-		//url : function(e,o,callback) {} <-- If not defined, uses standard AJAX call on the form.
-		/** Selector for Choosing Data to Save **/
-		data: 	'input,select,textarea',
-		/** Timer durations **/
-		interval: 	120000,
-		/** Callbacks **/
-		setup: 		function(e,o) {},
-		record: 	function(e,o) {},
-		before: 	function(e,o) { 
-			return true; 
-		},
-		validate: 	function(e,o) {
-			return $.isFunction($.fn.validate) && !$(this).is('.ignore-validate') ? $(this).valid() : true; 
-		},
-		save: 		function(e,o) {},
-		shutdown: 	function(e,o) {},
-		dirty: 		function(e,o) {}
-	};
-
-	window.onbeforeunload = function() {
-		$('form.autosave').trigger('autosave.shutdown');
-	};
-
+        /**
+         * If options.grouped is true we collect every
+         * value from every node
+         * But if its false we should only push
+         * the one element we are acting on
+         */
+        if (options.grouped) {
+            nodes.each(function (i) {
+                /**
+                 * Do not include button and input:submit as nodes to 
+                 * send, EXCEPT if the button/submit was the explicit
+                 * target, aka it was clicked
+                 */
+                if (!$(this).is('button,:submit') || e.currentTarget == this) {
+                    if ($(this).is(':radio') && $(this).attr('checked')==false)
+                        return;
+                    vals[this.name] = $(this).is(':checkbox') ? 
+                        $(this).attr('checked') : 
+                        $(this).val();
+                }
+            });
+        }
+        else {
+            vals[actsOn.name] = $(actsOn).is(':checkbox') ? 
+                $(actsOn).attr('checked') : 
+                $(actsOn).val();
+        }
+        /**
+         * Perform http request and trigger callbacks respectively
+         */
+        // Callback triggered when ajax sending starts
+        options.send ? options.send($(actsOn)) : false;
+        $.ajax({
+            type: options.method,
+            data: vals,
+            url: options.url,
+            dataType: options.dataType,
+            success: function(resp) {
+                options.success ? options.success(resp) : false;
+            },
+            error: function(resp) {
+                options.error ? options.error(resp) : false;
+            }
+        });
+    }
 })(jQuery);
+
+/**
+ * A default (example) of a visualizer you can use that will
+ * put a neat loading image in the nearest <legend>
+ * for the element/form you were autosaving.
+ * Notice: No default "remover" of this spinner exists
+ */
+defaultAutosaveSendVisualizer = function(node) {
+    var refNode;
+    if (node.is('form'))
+        refNode = $(node).find('legend');
+    else
+        refNode = $(node).parent('fieldset').find('legend');
+    // Create spinner
+    var spinner = $('<img src="spin.gif" />').css({
+        'position':'relative',
+        'margin-left':'10px',
+        'height': refNode.height(),
+        'width': refNode.height()
+    });
+    spinner.appendTo(refNode);
+}
+
