@@ -1,4 +1,5 @@
 # Django settings for checklist project.
+import os.path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -78,10 +79,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'checklist.urls'
 
 TEMPLATE_DIRS = (
-    "/home/checklist/checklist/templates"
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.path.dirname(__file__), 'templates'),
 )
 
 INSTALLED_APPS = (
