@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 import os.path
 
-from checklist.employee.views import indexview, getchecks, employeeview, employeelist, update_employeeinfo, update_employeelist, new_employee
+from checklist.employee.views import indexview, employeeview, employeelist, update_employeeinfo, update_employeelist, new_employee
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
