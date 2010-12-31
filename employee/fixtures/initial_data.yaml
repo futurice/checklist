@@ -17,7 +17,7 @@
     listname: 1
     itemname: Job contract
     textbox: False
-    order: 3
+    order: 2
     unit: HR
 - model: employee.ChecklistItem
   pk: 3
@@ -32,7 +32,7 @@
   fields:
     listname: 1
     itemname: Who is supervisor
-    textbox: True
+    textbox: False
     order: 4
     unit: HR
 
@@ -74,7 +74,7 @@
     listname: 1
     itemname: Ergocheck
     textbox: False
-    order: 9
+    order: 30
     unit: IT
 - model: employee.ChecklistItem
   pk: 10
@@ -303,7 +303,7 @@
     listname: 1
     itemname: Display, keyboard, mouse ordered
     textbox: False
-    order: 10
+    order: 17
     unit: IT
 - model: employee.ChecklistItem
   pk: 38
@@ -319,7 +319,7 @@
     listname: 1
     itemname: Photo for the badge
     textbox: False
-    order: 39
+    order: 9
     unit: IT
 - model: employee.ChecklistItem
   pk: 40
