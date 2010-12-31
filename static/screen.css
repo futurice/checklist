@@ -460,12 +460,16 @@ th.sorting_asc{
  width: 900px;
  height: 1.7em;
 }
+.dwrap_saving {
+ width: 17px;
+ float: left;
+}
 .dwrap_1 {
  width: 25px;
  float: left;
 }
 .dwrap_2 {
- width: 150px;
+ width: 133px;
  float: left;
 }
 .dwrap_3 {
