@@ -6,7 +6,7 @@ class Checklist(models.Model):
 
 class ChecklistItem(models.Model):
     class Meta:
-        ordering = ('order','itemname')
+        ordering = ('unit','order','itemname')
     listname = models.ForeignKey('Checklist')
     itemname = models.CharField(max_length=100)
     textbox = models.BooleanField(default=False)
@@ -20,6 +20,8 @@ class Employee(models.Model):
     confirmed = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
+    comments = models.CharField(max_length=1500, blank=True)
+    supervisor = models.CharField(max_length=50, blank=True)
     class Meta:
         ordering = ('start_date', 'name')
 
