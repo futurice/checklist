@@ -456,3 +456,25 @@ th.sorting_asc{
     color: grey;
     font-style: italic;
 }
+.dwrap {
+ width: 900px;
+ height: 1.7em;
+}
+.dwrap_1 {
+ width: 25px;
+ float: left;
+}
+.dwrap_2 {
+ width: 150px;
+ float: left;
+}
+.dwrap_3 {
+ width: 500px;
+ border: 1px;
+ float: left;
+}
+.dwrap_4 {
+ width: 125px;
+ border: 1px;
+ float: left;
+}

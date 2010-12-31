@@ -27,7 +27,7 @@ def employeeview(request, template_name, employee_id):
     employee_items = EmployeeItem.objects.filter(employee=employee)
     employee_dict = {}
     for item in employee_items:
-        employee_dict[item.id] = item
+        employee_dict[item.item.id] = item
     listfinished = []
     for item in listitems:
         d = {}
@@ -53,38 +53,28 @@ def getchecks(request, template_name, user_name):
     json_output = json.dumps(output)
     return render_to_response(template_name, {'json': json_output, 'user': user}, context_instance=RequestContext(request))
 
-def update_employeelist(request, template_name, employee_id):
+def update_employeelist(request, template_name, employee_id, item_id):
     employee = Employee.objects.get(id=employee_id)
-    listitems = ChecklistItem.objects.filter(listname=employee.listname.id)
-    items = {}
-    for item in request.POST.keys():
-        items[item] = request.POST[item]
-
-    print items
-    for item in listitems:
-        print "----"
-        print dir(item)
-        (employee_item, created) = EmployeeItem.objects.get_or_create(employee=employee, item=item, listname=employee.listname)
-        print "Created: %s" % created
-        if "checkbox_%s" % item.id in items:
-            if items["checkbox_%s" % item.id] == 'on':
-                print "value true for %s" % item.id
-                value = True
-            else:
-                print "value false for %s" % item.id
-                value = False
+    listitem = ChecklistItem.objects.get(id=item_id)
+    (employee_item, created) = EmployeeItem.objects.get_or_create(employee=employee, item=listitem, listname=employee.listname)
+    keys = ""
+    if "checkbox" in request.POST.keys():
+        if request.POST["checkbox"] == 'on':
+            employee_item.value = True
+            keys = "value = true"
         else:
-            print "value false for %s" % item.id
-            value = False
+            employee_item.value = False
+    else:
+        employee_item.value = False
+    keys = employee_item.value
 
-        if "textbox_%s" % item.id in items:
-            print "textbox_%s = %s" % (item.id, items["textbox_%s" % item.id])
-            textvalue = items["textbox_%s" % item.id]
-            employee_item.textvalue = textvalue
-        employee_item.value = value
-        employee_item.save()
+    if "textbox" in request.POST.keys():
+        employee_item.textvalue = request.POST["textbox"]
 
-    return render_to_response(template_name, {}, context_instance=RequestContext(request))    
+    employee_item.save()
+    keys = employee_item.id
+
+    return render_to_response(template_name, {"keys": keys }, context_instance=RequestContext(request))    
 
 def update_employeeinfo(request, template_name, employee_id):
     employee = Employee.objects.get(id=employee_id)

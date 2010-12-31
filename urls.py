@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'get/(?P<user_name>[A-Za-z0-9- ]+)$', getchecks, name='getchecks', kwargs={"template_name": "json.html"}),
     url(r'new_employee$', new_employee, name='new_employee', kwargs={"template_name": "new_employee.html"}),
     url(r'update/employeeinfo/(?P<employee_id>[0-9]+)$', update_employeeinfo, kwargs={"template_name": 'data_posted.html'}),
-    url(r'update/employeelist/(?P<employee_id>[0-9]+)$', update_employeelist, kwargs={"template_name": 'data_posted.html'}),
+    url(r'update/employeelist/(?P<employee_id>[0-9]+)/(?P<item_id>[0-9]+)$', update_employeelist, kwargs={"template_name": 'data_posted.html'}),
 
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': '/home/ojar/checklist/static'}),
 #    url(r'^mod/get/(?P<user_name>[A-Za-z0-9-]+)$', getjson, name="getjson", kwargs={"template_name": "getjson.html"}),
