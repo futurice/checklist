@@ -10,13 +10,9 @@ $.log = function(message){
 var timeouts = Array();
 
 function switch_blank(node) {
-    // TODO: do not clean too soon if form is cleared multiple times
     $(node).attr("src", "/checklist/static/blank.png");
 }
-
-$(document).ready(function(){
- $("form input, form textarea").autosave({
-  success: function(data) {
+function process_success(data) {
    if (data.success == true) {
     idname = "#spinner_"+data.key;
     console.log($(idname).attr("src"), data.key);
@@ -28,12 +24,12 @@ $(document).ready(function(){
    } else {
     console.log("fail");
    }
-  },
-  send: function(data) {
+}
+
+function process_send(data) {
     var refNode;
-    refNode = $(data).parent().parent().parent().find('legend');
-    console.log($(data).parent().parent().parent());
-    id = $(data).parent().parent().parent().attr("id").split("_");
+    refNode = $(data).closest('form').find('legend');
+    id = $(data).closest('form').attr("id").split("_");
     id = id[1];
     // Create spinner
     var spinner = $('<img src="/checklist/static/spinner14.gif" id="spinner_'+id+'" />').css({
@@ -45,9 +41,28 @@ $(document).ready(function(){
     refNode.empty();
     console.log("node4", refNode);
     spinner.appendTo(refNode);
-  }
- });
+}
 
+$(document).ready(function(){
+ $("#form_header").autosave({
+  grouped: true,
+  success: function(data) { process_success(data) },
+  send: function(data) { process_send(data) }
+ });
+ {% for listitem in listitems_yours %} 
+  $("#form_{{ listitem.id }}").autosave({
+   grouped: false,
+   success: function(data) { process_success(data) },
+   send: function(data) { process_send(data) }
+  });
+ {% endfor %}
+ {% for listitem in listitems_others %} 
+  $("#form_{{ listitem.id }}").autosave({
+   grouped: false,
+   success: function(data) { process_success(data) },
+   send: function(data) { process_send(data) }
+  });
+ {% endfor %}
  
 });
 
@@ -56,22 +71,21 @@ $(document).ready(function(){
 <h1>{{ employee.name }}</h1>
 
 <form method="post" action="/checklist/update/employeeinfo/{{ employee.id }}" class="autosave" id="form_header">
-<span>
-<span><legend></legend></span>
-<span>Start date: <input type="text" id="date" name="date" value="{{ employee.start_date|date:"Y-m-d" }}">.</span>
-<span>Confirmed: <input type="checkbox" id="confirmed" name="confirmed" {% if employee.confirmed %}checked="checked"{% endif %}>.</span>
-<span>Archived: <input type="checkbox" id="archived" name="archived" {% if employee.archived %}checked="checked"{% endif %}>.</span>
-<div>Supervisor name: <input type="text" id="supervisor" name="supervisor" value="{{ employee.supervisor }}"> (please use <b>LDAP account name</b>, for example <i>llem</i>)</div>
-<div>Comments: <textarea name="comments">{{ employee.comments }}</textarea></div>
-</span>
+{% csrf_token %}
+<legend><img src="/checklist/static/blank.png" id="progress_header"></legend>
+<table>
+{{ employee_form }}
+
+</table>
 </form>
+
 
 <h1>Your items</h1>
 
 <p>Please note: additional items in list below this (<b>Other items</b>) may also apply to you. You should not ignore it.</p>
 
 {% for listitem in listitems_yours %}
-<form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
+<form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
 <div class="dwrap">
 <div class="dwrap_saving"><legend><img src="/checklist/static/blank.png" id="progress_{{ listitem.id }}"></legend></div>
 <div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
@@ -84,7 +98,7 @@ $(document).ready(function(){
 
 <h1>Other items</h1>
 {% for listitem in listitems_others %}
-<form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
+<form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
 <div class="dwrap">
 <div class="dwrap_saving"><legend><img src="/checklist/static/blank.png" id="progress_{{ listitem.id }}"></legend></div>
 <div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
