@@ -6,7 +6,7 @@
 <h1>Active employees</h1>
 <ul>
 {% for employee in employees %}
- <li><a href="/checklist/employeeview/{{ employee.id }}">{{ employee.name }} {{ employee.start_date|date:"Y-m-d" }} ({% if employee.confirmed %}confirmed{% else %}not confirmed{% endif %})</a></li>
+ <li><a href="/checklist/employeeview/{{ employee.id }}">{{ employee.name }} {{ employee.start_date|date:"Y-m-d" }} ({% if employee.confirmed %}confirmed{% else %}not confirmed{% endif %}) {{ employee.delta }} day{{ employee.delta|pluralize}}</a></li>
 {% endfor %}
 </ul>
 
