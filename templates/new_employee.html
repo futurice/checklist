@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script type="text/javascript">
+ $(function() {
+  $("#id_start_date").datepicker({"dateFormat": "yy-mm-dd", 'showWeek': true, 'firstDay': 1});
+ });
+</script>
+
 <table>
 <form action="/checklist/new_employee" method="post">
 {% csrf_token %}
 {{ form }}
 <tr>
-<td></td>
+<th></th>
 <td><input type="submit" value="Submit" name="submit"></td>
 </tr>
 </form>

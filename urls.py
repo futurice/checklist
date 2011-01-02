@@ -17,5 +17,5 @@ urlpatterns = patterns('',
 
     url(r'^checklist/static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': os.path.join(os.path.dirname(__file__), 'static')}),
 
-    (r'^admin/', include(admin.site.urls)),
+    (r'^checklist/admin/', include(admin.site.urls)),
 )

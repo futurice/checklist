@@ -44,6 +44,7 @@ function process_send(data) {
 }
 
 $(document).ready(function(){
+ $("#id_start_date").datepicker({'dateFormat': 'yy-mm-dd', 'showWeek': true, 'firstDay': 1});
  $("#form_header").autosave({
   grouped: true,
   success: function(data) { process_success(data) },
