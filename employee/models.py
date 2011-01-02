@@ -3,6 +3,8 @@ from django.db import models
 # Create your models here.
 class Checklist(models.Model):
     listname = models.CharField(max_length=200)
+    def __unicode__(self):
+        return self.listname
 
 class ChecklistItem(models.Model):
     class Meta:
@@ -20,8 +22,8 @@ class ChecklistItem(models.Model):
 class Employee(models.Model):
     listname = models.ForeignKey('Checklist')
     name = models.CharField(max_length=100)
-    start_date = models.DateField(verbose_name="Start date")
-    confirmed = models.BooleanField(default=False)
+    start_date = models.DateField(verbose_name="Date")
+    confirmed = models.BooleanField(default=False, verbose_name="Confirmed/public")
     archived = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
 

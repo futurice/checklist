@@ -3,6 +3,11 @@
   fields:
     listname: New Employee
 
+- model: employee.Checklist
+  pk: 2
+  fields:
+    listname: Leaving Employee
+
 - model: employee.ChecklistItem
   pk: 1
   fields:

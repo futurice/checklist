@@ -1,12 +1,13 @@
 from django.template import RequestContext, loader
 from django.contrib.auth import get_backends
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 #from django.template import Context, loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
-from checklist.employee.forms import NewEmployee, EmployeeHeader
+from checklist.employee.forms import NewEmployee, EmployeeHeader, ListItemForm
 from checklist.employee.models import Checklist, ChecklistItem, Employee, EmployeeItem
 from datetime import date
 import json
@@ -108,12 +109,53 @@ def new_employee(request, template_name):
         form = NewEmployee(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             employee = form.save(commit=False)
-            employee.listname = Checklist.objects.get(id=1)
             employee.save()
-#            employee = Employee(name=form.cleaned_data['name'], listname=checklist, start_date=form.cleaned_data["start_date"], confirmed=form.cleaned_data["confirmed"])
-#            employee.save()
             return HttpResponseRedirect('/checklist/employeeview/%s' % employee.id) # Redirect after POST
     else:
         form = NewEmployee() # An unbound form
 
     return render_to_response(template_name, {'form': form}, context_instance=RequestContext(request))    
+
+
+def modify_items(request, template_name):
+    items_new = ChecklistItem.objects.filter(listname=1)
+    items_leaving = ChecklistItem.objects.filter(listname=2,item_pair=None)
+    items_finished = []
+    for item in items_new:
+        try:
+           item_leaving = ChecklistItem.objects.get(item_pair=item)
+        except ObjectDoesNotExist:
+           item_leaving = None
+        items_finished.append([item, item_leaving])
+    for item in items_leaving: 
+        items_finished.append([None, item])
+    print items_finished
+    return render_to_response(template_name, {'items': items_finished}, context_instance=RequestContext(request))
+
+def modify_list_item(request, template_name, action, item_id):
+    if request.method == 'POST':
+        try:
+            if action == 'pair':
+                instance = ChecklistItem.objects.get(item_pair=item_id)
+            else:
+                instance = ChecklistItem.objects.get(id=item_id)
+            form = ListItemForm(request.POST, instance=instance)
+        except ObjectDoesNotExist:
+            form = ListItemForm(request.POST)
+        if form.is_valid():
+            item = form.save()
+
+    else:
+        if action == 'new':
+            form = ListItemForm()
+        elif action == 'pair':
+            try:
+                instance = ChecklistItem.objects.get(item_pair=item_id)
+            except ObjectDoesNotExist:
+                instance = ChecklistItem(itemname='Item name', unit='Unit name', order=20, listname=Checklist.objects.get(id=2), item_pair=ChecklistItem.objects.get(id=item_id))
+            form = ListItemForm(instance=instance)
+        else: # action = edit
+            instance = ChecklistItem.objects.get(id=item_id)
+            form = ListItemForm(instance=instance)            
+
+    return render_to_response(template_name, {'form': form}, context_instance=RequestContext(request))

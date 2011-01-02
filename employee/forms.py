@@ -1,4 +1,4 @@
-from employee.models import Employee
+from employee.models import Employee, ChecklistItem
 from django import forms
 from django.forms import ModelForm
 import datetime
@@ -9,7 +9,7 @@ class NewEmployee(ModelForm):
 #    start_date = forms.DateField(initial=datetime.date.today)
     class Meta:
         model = Employee
-        fields = ('name', 'start_date', 'confirmed')
+        fields = ('name', 'start_date', 'confirmed', 'listname')
         widgets = {
             'start_date': forms.DateInput(),
         }
@@ -24,4 +24,12 @@ class EmployeeHeader(ModelForm):
             'deleted': forms.HiddenInput(),
             'archived': forms.HiddenInput(),
             'comments': forms.Textarea(attrs={'cols': 70, 'rows': 5})
+        }
+
+class ListItemForm(ModelForm):
+    class Meta:
+        model = ChecklistItem
+        widgets = {
+            'listname': forms.HiddenInput(),
+            'item_pair': forms.HiddenInput(),
         }
