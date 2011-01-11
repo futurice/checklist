@@ -9,39 +9,6 @@
     listname: Leaving Employee
 
 - model: employee.ChecklistItem
-  pk: 1
-  fields:
-    listname: 1
-    itemname: NDA
-    textbox: False
-    order: 1
-    unit: HR
-- model: employee.ChecklistItem
-  pk: 2
-  fields:
-    listname: 1
-    itemname: Job contract
-    textbox: False
-    order: 2
-    unit: HR
-- model: employee.ChecklistItem
-  pk: 3
-  fields:
-    listname: 1
-    itemname: Introduction schedule
-    textbox: False
-    order: 3
-    unit: HR
-- model: employee.ChecklistItem
-  pk: 4
-  fields:
-    listname: 1
-    itemname: Who is supervisor
-    textbox: False
-    order: 4
-    unit: HR
-
-- model: employee.ChecklistItem
   pk: 5
   fields:
     listname: 1
@@ -65,14 +32,6 @@
     textbox: False
     order: 7
     unit: Supervisor
-- model: employee.ChecklistItem
-  pk: 8
-  fields:
-    listname: 1
-    itemname: Ergocheck scheduled
-    textbox: False
-    order: 8
-    unit: HR
 - model: employee.ChecklistItem
   pk: 9
   fields:
@@ -290,7 +249,7 @@
   pk: 36
   fields:
     listname: 1
-    itemname: Tax card
+    itemname: Tax card (Verokortti)
     textbox: False
     order: 36
     unit: Lotta
@@ -307,7 +266,7 @@
   fields:
     listname: 1
     itemname: Display, keyboard, mouse ordered
-    textbox: False
+    textbox: True
     order: 17
     unit: IT
 - model: employee.ChecklistItem
@@ -331,33 +290,17 @@
   fields:
     listname: 1
     itemname: Mentor/work instructor
-    textbox: False
+    textbox: True
     order: 40
     unit: Supervisor
-- model: employee.ChecklistItem
-  pk: 41
-  fields:
-    listname: 1
-    itemname: Futupeople newsletter
-    textbox: False
-    order: 41
-    unit: HR
 
-- model: employee.ChecklistItem
-  pk: 42
-  fields:
-    listname: 1
-    itemname: Meeting for signing contracts
-    textbox: False
-    order: 1
-    unit: Supervisor
 - model: employee.ChecklistItem
   pk: 43
   fields:
     listname: 1
     itemname: Short description to FutuPeople infomail to Lenita
     textbox: False
-    order: 1
+    order: 20
     unit: Supervisor
 - model: employee.ChecklistItem
   pk: 44
@@ -399,3 +342,228 @@
     textbox: False
     order: 48
     unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 49
+  fields:
+    listname: 1
+    itemname: End of probationary period - gift ordered
+    textbox: False
+    order: 49
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 50
+  fields:
+    listname: 1
+    itemname: New Employee Iltama
+    textbox: False
+    order: 50
+    unit: Lotta
+- model: employee.ChecklistItem
+  pk: 51
+  fields:
+    listname: 1
+    itemname: Offer Accepted
+    textbox: False
+    order: 52
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 52
+  fields:
+    listname: 1
+    itemname: Team, Supervisor Confirmed
+    textbox: False
+    order: 52
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 53
+  fields:
+    listname: 1
+    itemname: Job Contract Created
+    textbox: False
+    order: 53
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 54
+  fields:
+    listname: 1
+    itemname: NDA Created
+    textbox: False
+    order: 54
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 55
+  fields:
+    listname: 1
+    itemname: NDA and job contract signing date agreed
+    textbox: False
+    order: 55
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 56
+  fields:
+    listname: 1
+    itemname: NDA and job contract - signed
+    textbox: False
+    order: 56
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 57
+  fields:
+    listname: 1
+    itemname: NDA and job contract - scan+to netdisk and delivery to Lotta
+    textbox: False
+    order: 57
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 58
+  fields:
+    listname: 1
+    itemname: Information to Personnel Excel
+    textbox: False
+    order: 58
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 59
+  fields:
+    listname: 1
+    itemname: FutuEmployee mail
+    textbox: False
+    order: 59
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 60
+  fields:
+    listname: 1
+    itemname: Introduction schedule Created
+    textbox: False
+    order: 60
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 61
+  fields:
+    listname: 1
+    itemname: Introduction calendar invites
+    textbox: False
+    order: 61
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 62
+  fields:
+    listname: 1
+    itemname: Introduction Material Created
+    textbox: False
+    order: 62
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 63
+  fields:
+    listname: 1
+    itemname: Introduction Email Sent
+    textbox: False
+    order: 63
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 64
+  fields:
+    listname: 1
+    itemname: Sitting Place Checked
+    textbox: False
+    order: 64
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 65
+  fields:
+    listname: 1
+    itemname: Probationary period ending calendar invite
+    textbox: False
+    order: 65
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 66
+  fields:
+    listname: 1
+    itemname: HR introduction
+    textbox: False
+    order: 66
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 67
+  fields:
+    listname: 1
+    itemname: Follow-up with employee after 2 months
+    textbox: False
+    order: 67
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 68
+  fields:
+    listname: 1
+    itemname: Follow-up with supervisor after 2 months
+    textbox: False
+    order: 68
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 69
+  fields:
+    listname: 1
+    itemname: Follow-up interview summary + actions
+    textbox: False
+    order: 69
+    unit: HR
+- model: employee.ChecklistItem
+  pk: 70
+  fields:
+    listname: 1
+    itemname: Offering large introduction events to employee
+    textbox: False
+    order: 70
+    unit: HR
+
+- model: employee.ChecklistItem
+  pk: 71
+  fields:
+    listname: 1
+    itemname: Lunch meeting before starting
+    textbox: False
+    order: 71 
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 73
+  fields:
+    listname: 1
+    itemname: Sitting place informed to HR and IT
+    textbox: False
+    order: 6
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 74
+  fields:
+    listname: 1
+    itemname: Contents of Business Cards to Lotta
+    textbox: False
+    order: 74
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 75
+  fields:
+    listname: 1
+    itemname: Job introduction planned + introduction materials created
+    textbox: False
+    order: 41
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 76
+  fields:
+    listname: 1
+    itemname: End of probationary period - informing, celebrating, gift (ordered by Lotta)
+    textbox: False
+    order: 76
+    unit: Supervisor
+- model: employee.ChecklistItem
+  pk: 76
+  fields:
+    listname: 1
+    itemname: Physical keys
+    textbox: False
+    order: 23
+    unit: IT

@@ -23,7 +23,7 @@ urlpatterns = patterns('',
     url(r'edit/listitems/(?P<item_id>[0-9]+)$', modify_list_item, kwargs={"template_name": "modify_list_item.html", "action": "edit"}),
 
 
-    url(r'^checklist/static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': os.path.join(os.path.dirname(__file__), 'static')}),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': os.path.join(os.path.dirname(__file__), 'static')}),
 
-    (r'^checklist/admin/', include(admin.site.urls)),
+    (r'^admin/', include(admin.site.urls)),
 )

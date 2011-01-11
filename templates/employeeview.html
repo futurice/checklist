@@ -14,8 +14,7 @@ function switch_blank(node) {
 }
 function process_success(data) {
    if (data.success == true) {
-    idname = "#spinner_"+data.key;
-    console.log($(idname).attr("src"), data.key);
+    idname = "#progress_"+data.key;
     $(idname).attr("src", "/checklist/static/ok.png");
     if (typeof timeouts[idname] != 'undefined') {
       clearTimeout(timeouts[idname]);
@@ -27,20 +26,10 @@ function process_success(data) {
 }
 
 function process_send(data) {
-    var refNode;
-    refNode = $(data).closest('form').find('legend');
     id = $(data).closest('form').attr("id").split("_");
     id = id[1];
-    // Create spinner
-    var spinner = $('<img src="/checklist/static/spinner14.gif" id="spinner_'+id+'" />').css({
-        'position':'relative',
-        'margin-left':'0px',
-        'height': 16,
-        'width': 16
-    });
-    refNode.empty();
-    console.log("node4", refNode);
-    spinner.appendTo(refNode);
+    idname = "#progress_"+id;
+    $(idname).attr("src", "/checklist/static/spinner14.gif");
 }
 
 $(document).ready(function(){
@@ -88,7 +77,7 @@ $(document).ready(function(){
 {% for listitem in listitems_yours %}
 <form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
 <div class="dwrap">
-<div class="dwrap_saving"><legend><img src="/checklist/static/blank.png" id="progress_{{ listitem.id }}"></legend></div>
+<div class="dwrap_saving"><img src="/checklist/static/blank.png" id="progress_{{ listitem.id }}"></div>
 <div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
 <div class="dwrap_2"><small>{{ listitem.unit }}</small></div>
 <div class="dwrap_3">{{ listitem.itemname }}</div>
@@ -101,7 +90,7 @@ $(document).ready(function(){
 {% for listitem in listitems_others %}
 <form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
 <div class="dwrap">
-<div class="dwrap_saving"><legend><img src="/checklist/static/blank.png" id="progress_{{ listitem.id }}"></legend></div>
+<div class="dwrap_saving"><img src="/checklist/static/blank.png" id="progress_{{ listitem.id }}"></div>
 <div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
 <div class="dwrap_2"><small>{{ listitem.unit }}</small></div>
 <div class="dwrap_3">{{ listitem.itemname }}</div>
@@ -110,7 +99,4 @@ $(document).ready(function(){
 </form>
 {% endfor %}
 
-<div id="log">
-Log
-</div>
 {% endblock %}

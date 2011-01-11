@@ -26,7 +26,6 @@ def indexview(request, template_name):
     return render_to_response(template_name, {'lists': lists}, context_instance=RequestContext(request))
 
 def employeelist(request, template_name, list_id):
-    print list_id
     employees = Employee.objects.filter(listname=list_id,deleted=False,archived=False)
     employees_archived = Employee.objects.filter(listname=list_id,deleted=False,archived=True)
     for employee in employees:
@@ -51,7 +50,8 @@ def __combine_lists(employee_dict, items):
 
 def employeeview(request, template_name, employee_id):
     employee = Employee.objects.get(id=employee_id)
-    unit = determine_group("ojar")
+    username = request.META["REMOTE_USER"]
+    unit = determine_group(username)
     items_yours = ChecklistItem.objects.filter(listname=employee.listname.id).filter(unit=unit)
     items_others = ChecklistItem.objects.filter(listname=employee.listname.id).exclude(unit=unit)
 
@@ -64,9 +64,6 @@ def employeeview(request, template_name, employee_id):
 
     listitems_yours = __combine_lists(employee_dict, items_yours)
     listitems_others = __combine_lists(employee_dict, items_others)
-    print listitems_yours
-    print listitems_others
-#    listitems = ChecklistItem.objects.filter(listname=list_id)
     return render_to_response(template_name, {'listitems_yours': listitems_yours, 'listitems_others': listitems_others, 'employee': employee, 'employee_form': form }, context_instance=RequestContext(request))
 
 def update_employeelist(request, template_name, employee_id, item_id):
@@ -129,7 +126,6 @@ def modify_items(request, template_name):
         items_finished.append([item, item_leaving])
     for item in items_leaving: 
         items_finished.append([None, item])
-    print items_finished
     return render_to_response(template_name, {'items': items_finished}, context_instance=RequestContext(request))
 
 def modify_list_item(request, template_name, action, item_id):
