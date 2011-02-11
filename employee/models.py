@@ -14,7 +14,7 @@ class ChecklistItem(models.Model):
     textbox = models.BooleanField(default=False, verbose_name="Enable Textbox")
     order = models.IntegerField(verbose_name="Order in Checklist")
     unit = models.CharField(max_length=50, verbose_name="Responsible Team")
-    item_pair = models.ForeignKey('ChecklistItem', null=True)
+    item_pair = models.ForeignKey('ChecklistItem', null=True, blank=True)
 
     def __unicode__(self):
         return self.itemname
@@ -27,10 +27,10 @@ class Employee(models.Model):
     archived = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
 
-    supervisor = models.CharField(max_length=50, blank=True, verbose_name="Supervisor's LDAP account")
     phone = models.CharField(max_length=30, blank=True, verbose_name="Phone number")
     email = models.CharField(max_length=150, blank=True, verbose_name="Contact email")
     email_notifications = models.BooleanField(default=True)
+    supervisor = models.CharField(max_length=50, blank=True, verbose_name="Supervisor's LDAP account")
     comments = models.TextField(max_length=1500, blank=True, verbose_name="Info")
 
     def __unicode__(self):
