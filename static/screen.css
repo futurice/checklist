@@ -115,6 +115,9 @@ tr.even {  }
 tr.odd {
     background-color: #f0f0f0;
 }
+tr.your_employee {
+    background-color: #ffaaaa;
+}
 
 /*Vertical tables*/
 table.vertical th, table.vertical.form th {

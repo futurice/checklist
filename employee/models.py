@@ -6,6 +6,10 @@ class Checklist(models.Model):
     def __unicode__(self):
         return self.listname
 
+class Checkpoint(models.Model):
+    deadline = models.IntegerField(verbose_name="Days before starting date")
+    send_alarm = models.BooleanField(default=True)
+
 class ChecklistItem(models.Model):
     class Meta:
         ordering = ('unit','order','itemname')
@@ -15,6 +19,7 @@ class ChecklistItem(models.Model):
     order = models.IntegerField(verbose_name="Order in Checklist")
     unit = models.CharField(max_length=50, verbose_name="Responsible Team")
     item_pair = models.ForeignKey('ChecklistItem', null=True, blank=True)
+    checkpoint = models.ForeignKey('Checkpoint', null=True, blank=True)
 
     def __unicode__(self):
         return self.itemname
@@ -46,6 +51,7 @@ class EmployeeItem(models.Model):
     value = models.BooleanField(default=False)
     textvalue = models.CharField(max_length=200,blank=True, null=True)
     comment = models.CharField(max_length=200, blank=True)
+    checkpoint_fired = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "%s: %s - %s" % (self.employee.name, self.item.itemname, self.value)

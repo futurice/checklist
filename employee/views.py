@@ -19,17 +19,32 @@ def determine_group(username):
         return "Lotta"
     if username in ["srot", "llem", "pjal", "aker"]:
         return "HR"
-    return "Supervisor"
+    if username in ["atol", "hnev", "hdah", "hhol", "hsik", "lelo", "mtau", "mcal", "mmal", "mhaa", "mjyl", "msam", "mleh", "mvih", "mvii", "ovan", "ohaa", "phou", "pjal", "rval", "sham", "tmoi", "tsuo", "tkaj", "tsyr", "vtoi"]:
+        return "Supervisor"
+    return "Undefined"
 
 def indexview(request, template_name):
     lists = Checklist.objects.all()
     return render_to_response(template_name, {'lists': lists}, context_instance=RequestContext(request))
 
 def employeelist(request, template_name, list_id):
+    username = request.META["REMOTE_USER"]
+    unit = determine_group(username)
+    if unit == "Undefined":
+        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
     employees = Employee.objects.filter(listname=list_id,deleted=False,archived=False)
     employees_archived = Employee.objects.filter(listname=list_id,deleted=False,archived=True)
+
     for employee in employees:
         employee.delta = (employee.start_date - date.today()).days
+        employee.total_count = len(ChecklistItem.objects.filter(listname=employee.listname))
+        employee.done_count = len(EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True))
+        employee.your_total_count = len(ChecklistItem.objects.filter(listname=employee.listname, unit=unit))
+        employee.your_done_count = len(EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=unit, value=True))
+        if employee.supervisor == username:
+            employee.your_employee = True
+
+#    (employee_item, created) = EmployeeItem.objects.get_or_create(employee=employee, item=listitem, listname=employee.listname)
  
     return render_to_response(template_name, {'employees': employees, 'archived': employees_archived }, context_instance=RequestContext(request))
 
@@ -52,6 +67,8 @@ def employeeview(request, template_name, employee_id):
     employee = Employee.objects.get(id=employee_id)
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
+    if unit == "Undefined":
+        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
     items_yours = ChecklistItem.objects.filter(listname=employee.listname.id).filter(unit=unit)
     items_others = ChecklistItem.objects.filter(listname=employee.listname.id).exclude(unit=unit)
 
@@ -70,6 +87,10 @@ def update_employeelist(request, template_name, employee_id, item_id):
     employee = Employee.objects.get(id=employee_id)
     listitem = ChecklistItem.objects.get(id=item_id)
     (employee_item, created) = EmployeeItem.objects.get_or_create(employee=employee, item=listitem, listname=employee.listname)
+    username = request.META["REMOTE_USER"]
+    unit = determine_group(username)
+    if unit == "Undefined":
+        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
 
     if "checkbox" in request.POST.keys():
         if request.POST["checkbox"] == 'on' or request.POST["checkbox"] == 'true':
