@@ -15,11 +15,11 @@ import json
 def determine_group(username):
     if username in ["ojar", "valh", "mmal", "lekl", "spiq", "lrom"]:
         return "IT"
-    if username in ["ltan"]:
+    if username in ["ltan", "ppaa"]:
         return "Lotta"
-    if username in ["srot", "llem", "pjal", "aker"]:
+    if username in ["srot", "llem", "pjal", "aker", "jero", "hnev"]:
         return "HR"
-    if username in ["atol", "hnev", "hdah", "hhol", "hsik", "lelo", "mtau", "mcal", "mmal", "mhaa", "mjyl", "msam", "mleh", "mvih", "mvii", "ovan", "ohaa", "phou", "pjal", "rval", "sham", "tmoi", "tsuo", "tkaj", "tsyr", "vtoi"]:
+    if username in ["atol", "hnev", "hdah", "hhol", "hsik", "lelo", "mtau", "mcal", "mmal", "mhaa", "mjyl", "msam", "mleh", "mvih", "mvii", "ovan", "ohaa", "phou", "pjal", "rjarv", "sham", "tmoi", "tsuo", "tkaj", "tsyr", "vtoi"]:
         return "Supervisor"
     return "Undefined"
 

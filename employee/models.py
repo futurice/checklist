@@ -10,9 +10,16 @@ class Checkpoint(models.Model):
     deadline = models.IntegerField(verbose_name="Days before starting date")
     send_alarm = models.BooleanField(default=True)
 
+    def __unicode__(self):
+        return str(self.deadline)
+
+    class Meta:
+        ordering = ('deadline',)
+
 class ChecklistItem(models.Model):
     class Meta:
-        ordering = ('unit','order','itemname')
+        ordering = ('listname', 'unit','order','itemname')
+
     listname = models.ForeignKey('Checklist')
     itemname = models.CharField(max_length=100, verbose_name="Item Name")
     textbox = models.BooleanField(default=False, verbose_name="Enable Textbox")
@@ -24,6 +31,12 @@ class ChecklistItem(models.Model):
     def __unicode__(self):
         return self.itemname
 
+EMPLOYEE_STATES= (
+    ('S', 'Summer worker'),
+    ('P', 'Part-timer'),
+    ('T', 'Fixed-term'),
+    ('A', 'Permanent'))
+
 class Employee(models.Model):
     listname = models.ForeignKey('Checklist')
     name = models.CharField(max_length=100)
@@ -31,7 +44,8 @@ class Employee(models.Model):
     confirmed = models.BooleanField(default=False, verbose_name="Confirmed/public")
     archived = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
-
+    
+    employee_state = models.CharField(max_length=1, choices=EMPLOYEE_STATES, default='A')
     phone = models.CharField(max_length=30, blank=True, verbose_name="Phone number")
     email = models.CharField(max_length=150, blank=True, verbose_name="Contact email")
     email_notifications = models.BooleanField(default=True)

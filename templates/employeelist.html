@@ -12,6 +12,7 @@
   <th>ETA</th>
   <th>Group items</th>
   <th>Items done</th>
+  <th>S</th>
  </tr>
 {% for employee in employees %}
  <tr {% if employee.your_employee %}class="your_employee"{%endif%}>
@@ -21,6 +22,7 @@
   <td>{{ employee.delta }} day{{ employee.delta|pluralize}}</td>
   <td>{% if employee.your_done_count == employee.your_total_count %}<b>Finished</b>{%else%}<b>{{ employee.your_done_count }}</b>/{{ employee.your_total_count }}{%endif%}</td>
   <td>{% if employee.done_count == employee.total_count %}<b>Finished</b>{%else%}<b>{{ employee.done_count }}</b>/{{ employee.total_count }}{%endif%}</td>
+  <td>{% ifnotequal employee.employee_state 'A' %}{{ employee.employee_state }}{% endifnotequal %}</td>
  </tr>
 {% endfor %}
 </table>
