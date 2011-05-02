@@ -1,8 +1,8 @@
 # Django settings for checklist project.
 import os.path
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+DEBUG = False
+TEMPLATE_DEBUG = True
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -89,12 +89,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
     'checklist.employee',
+    'south',
+    'sentry.client',
 )
+
+SENTRY_KEY = 'js52wjdsoisr78fgs1f0g415safg1'
+SENTRY_REMOTE_URL = 'https://sentry.futurice.com/sentry/store/'
+
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                "django.core.context_processors.debug",
                "django.core.context_processors.i18n",
