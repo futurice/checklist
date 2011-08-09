@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
-from checklist.employee.forms import NewEmployee, EmployeeHeader, ListItemForm, ItemForm
+from checklist.employee.forms import NewEmployee, EmployeeHeader, ListItemForm
 from django.forms.models import modelformset_factory
 
 from checklist.employee.models import Checklist, ChecklistItem, Employee, EmployeeItem
