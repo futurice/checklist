@@ -1,7 +1,7 @@
 # Django settings for checklist project.
 import os.path
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = True
 
 ADMINS = (
@@ -92,7 +92,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'checklist.employee',
     'south',
-    'sentry.client',
+#    'sentry.client',
 )
 
 SENTRY_KEY = 'js52wjdsoisr78fgs1f0g415safg1'
