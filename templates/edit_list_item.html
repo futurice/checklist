@@ -33,7 +33,7 @@ $( "#dialog-confirm" ).dialog({
 
   $("#goback_button").button();
   $("#goback_button").click(function() {
-    window.location.href = "/checklist/edit/{{ list.id }}";
+    window.location.href = "/checklist/edit/{{ list_id }}";
   });
  });
 </script>
@@ -51,9 +51,6 @@ $( "#dialog-confirm" ).dialog({
 
 {% csrf_token %}
 {{ form }}
-<tr>
-<th></th>
-<td><input type="submit" value="Save"></td>
 </table>
 </form>
 
@@ -65,6 +62,5 @@ $( "#dialog-confirm" ).dialog({
 <span id="save_button">Save</span>
 <span id="goback_button">Back to list</span>
 <span id="delete_button">Delete</span>
-<p><a href="/checklist/edit/{{ list_id}}">Go back to list</a></p>
 {% endblock %}
 
