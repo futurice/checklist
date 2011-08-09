@@ -476,7 +476,7 @@ th.sorting_asc{
  float: left;
 }
 .dwrap_3 {
- width: 500px;
+ /*width: 500px;*/
  border: 1px;
  float: left;
 }
@@ -484,4 +484,5 @@ th.sorting_asc{
  width: 125px;
  border: 1px;
  float: left;
+ margin-left: 5px;
 }

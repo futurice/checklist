@@ -36,7 +36,14 @@ def employeelist(request, template_name, list_id):
     employees_archived = Employee.objects.filter(listname=list_id,deleted=False,archived=True)
 
     for employee in employees:
-        employee.delta = (employee.start_date - date.today()).days
+        employee.total_count = len(ChecklistItem.objects.filter(listname=employee.listname))
+        employee.done_count = len(EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True))
+        employee.your_total_count = len(ChecklistItem.objects.filter(listname=employee.listname, unit=unit))
+        employee.your_done_count = len(EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=unit, value=True))
+        if employee.supervisor == username:
+            employee.your_employee = True
+
+    for employee in employees_archived:
         employee.total_count = len(ChecklistItem.objects.filter(listname=employee.listname))
         employee.done_count = len(EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True))
         employee.your_total_count = len(ChecklistItem.objects.filter(listname=employee.listname, unit=unit))

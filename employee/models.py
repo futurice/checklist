@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 class Checklist(models.Model):
@@ -51,6 +52,11 @@ class Employee(models.Model):
     email_notifications = models.BooleanField(default=True)
     supervisor = models.CharField(max_length=50, blank=True, verbose_name="Supervisor's LDAP account")
     comments = models.TextField(max_length=1500, blank=True, verbose_name="Info")
+
+    @property
+    def eta(self):
+        return (self.start_date - datetime.date.today()).days
+
 
     def __unicode__(self):
         return self.name

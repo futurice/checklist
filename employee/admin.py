@@ -9,12 +9,16 @@ class ChecklistItemAdmin(admin.ModelAdmin):
     list_filter = ('listname', 'unit')
 
 
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ["listname", "name", "start_date"]
+    list_filter = ("archived",)
+
 class CheckpointAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Checklist, ChecklistAdmin)
 admin.site.register(ChecklistItem, ChecklistItemAdmin)
-admin.site.register(Employee)
+admin.site.register(Employee, EmployeeAdmin)
 admin.site.register(EmployeeItem)
 admin.site.register(Checkpoint, CheckpointAdmin)
 

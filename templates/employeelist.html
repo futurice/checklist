@@ -19,7 +19,7 @@
   <td><a href="/checklist/employeeview/{{ employee.id }}">{{ employee.name }}</a></td>
   <td>{{ employee.start_date|date:"Y-m-d" }}</td>
   <td>({% if employee.confirmed %}confirmed{% else %}not confirmed{% endif %})</td>
-  <td>{{ employee.delta }} day{{ employee.delta|pluralize}}</td>
+  <td>{{ employee.eta }} day{{ employee.eta|pluralize}}</td>
   <td>{% if employee.your_done_count == employee.your_total_count %}<b>Finished</b>{%else%}<b>{{ employee.your_done_count }}</b>/{{ employee.your_total_count }}{%endif%}</td>
   <td>{% if employee.done_count == employee.total_count %}<b>Finished</b>{%else%}<b>{{ employee.done_count }}</b>/{{ employee.total_count }}{%endif%}</td>
   <td>{% ifnotequal employee.employee_state 'A' %}{{ employee.employee_state }}{% endifnotequal %}</td>
@@ -28,10 +28,27 @@
 </table>
 
 <h1>Archived employees</h1>
-<ul>
-{% for employee in employees_archived %}
- <li><a href="/checklist/employeeview/{{ employee.id }}">{{ employee.name }} {{ employee.start_date|date:"Y-m-d" }} ({% if employee.confirmed %}confirmed{% else %}not confirmed{% endif %})</a></li>
+<table>
+ <tr>
+  <th>Name</th>
+  <th>Start date</th>
+  <th>Confirmed</th>
+  <th>ETA</th>
+  <th>Group items</th>
+  <th>Items done</th>
+  <th>S</th>
+ </tr>
+{% for employee in archived %}
+ <tr {% if employee.your_employee %}class="your_employee"{%endif%}>
+  <td><a href="/checklist/employeeview/{{ employee.id }}">{{ employee.name }}</a></td>
+  <td>{{ employee.start_date|date:"Y-m-d" }}</td>
+  <td>({% if employee.confirmed %}confirmed{% else %}not confirmed{% endif %})</td>
+  <td>{{ employee.eta }} day{{ employee.eta|pluralize}}</td>
+  <td>{% if employee.your_done_count == employee.your_total_count %}<b>Finished</b>{%else%}<b>{{ employee.your_done_count }}</b>/{{ employee.your_total_count }}{%endif%}</td>
+  <td>{% if employee.done_count == employee.total_count %}<b>Finished</b>{%else%}<b>{{ employee.done_count }}</b>/{{ employee.total_count }}{%endif%}</td>
+  <td>{% ifnotequal employee.employee_state 'A' %}{{ employee.employee_state }}{% endifnotequal %}</td>
+ </tr>
 {% endfor %}
-</ul>
+</table>
 
 {% endblock %}
