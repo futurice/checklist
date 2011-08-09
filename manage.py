@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+import sys
+sys.path.append("/opt/local/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6/site-packages") 
+
+
 from django.core.management import execute_manager
 try:
     import settings # Assumed to be in the same directory.
@@ -9,3 +13,4 @@ except ImportError:
 
 if __name__ == "__main__":
     execute_manager(settings)
+

@@ -1,12 +1,16 @@
-from employee.models import Employee, ChecklistItem
+from employee.models import Employee, ChecklistItem, Checklist
 from django import forms
 from django.forms import ModelForm
 import datetime
 
+class ItemForm(ModelForm):
+    class Meta:
+        model = Checklist
+
+class DeleteForm(forms.Form):
+    pass
+
 class NewEmployee(ModelForm):
-#    name = forms.CharField(max_length=100)
-#    confirmed = forms.BooleanField(required=False)
-#    start_date = forms.DateField(initial=datetime.date.today)
     class Meta:
         model = Employee
         fields = ('name', 'start_date', 'confirmed', 'listname')
@@ -17,7 +21,6 @@ class NewEmployee(ModelForm):
 class EmployeeHeader(ModelForm):
     class Meta:
         model = Employee
-#        fields = ('name', 'start_date', 'confirmed', 'archived', 'supervisor', 'email', 'email_notifications', 'phone', 'comments', 'id', 'listname', 'deleted')
         widgets = {
             'name': forms.TextInput(attrs={'size': 70}),
             'listname': forms.HiddenInput(),
@@ -31,5 +34,6 @@ class ListItemForm(ModelForm):
         model = ChecklistItem
         widgets = {
             'listname': forms.HiddenInput(),
+            'order': forms.HiddenInput(),
             'item_pair': forms.HiddenInput(),
         }

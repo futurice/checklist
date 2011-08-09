@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
-from checklist.employee.forms import NewEmployee, EmployeeHeader, ListItemForm
+from checklist.employee.forms import NewEmployee, EmployeeHeader, ListItemForm, DeleteForm
 from django.forms.models import modelformset_factory
 
 from checklist.employee.models import Checklist, ChecklistItem, Employee, EmployeeItem
@@ -38,18 +38,16 @@ def edit_list(request, list_id, template_name):
     items = ChecklistItem.objects.filter(listname=list).order_by("order")
     return render_to_response(template_name, {"list": list, "items": items, "form": form}, context_instance=RequestContext(request))
 
-
-def edit_list_reorder(request, list_id, template_name):
+def edit_list_item(request, action, item_id, list_id, template_name):
     list = Checklist.objects.get(id=list_id)
     if request.method == 'POST':
-        pass
-    items = ChecklistItem.objects.filter(listname=list).order_by("order")
-    return render_to_response(template_name, {"list": list, "items": items}, context_instance=RequestContext(request))
-
-
-def edit_list_item(request, template_name, action, list_id, item_id):
-    list = Checklist.objects.get(id=list_id)
-    if request.method == 'POST':
+        if request.GET.get("action") == "delete":
+            form = DeleteForm(request.POST)
+            if form.is_valid():
+                ChecklistItem.objects.get(id=item_id).delete()
+                return HttpResponseRedirect("/checklist/edit/%s" % list_id)
+            else:
+                return HttpResponse404()
         try:
             if action == 'pair':
                 instance = ChecklistItem.objects.get(item_pair=item_id)
@@ -59,11 +57,13 @@ def edit_list_item(request, template_name, action, list_id, item_id):
         except ObjectDoesNotExist:
             form = ListItemForm(request.POST)
         if form.is_valid():
-            item = form.save()
+            item = form.save(commit=False)
+            item.listname = list
+            item.save()
 
     else:
         if action == 'new':
-            form = ListItemForm()
+            form = ListItemForm(initial={"listname": list_id, "order": 0})
         elif action == 'pair':
             try:
                 instance = ChecklistItem.objects.get(item_pair=item_id)
@@ -74,6 +74,6 @@ def edit_list_item(request, template_name, action, list_id, item_id):
             instance = ChecklistItem.objects.get(id=item_id)
             form = ListItemForm(instance=instance)            
 
-    return render_to_response(template_name, {'form': form}, context_instance=RequestContext(request))
+    return render_to_response(template_name, {'form': form, "list_id": list.id}, context_instance=RequestContext(request))
 
 

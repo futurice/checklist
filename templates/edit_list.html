@@ -26,8 +26,12 @@
                 });
 		$( "#sortable" ).disableSelection();
                 $("#save_changes").button();
+                $("#add_new").button();
                 $("#save_changes").click(function() {
                   $("#checklist_order_form").submit();
+                });
+                $("#add_new").click(function() {
+                  window.location.href = "/checklist/edit/{{ list.id }}/add";
                 });
 	});
 	</script>
@@ -36,10 +40,15 @@
 {% block content %}
 <h2>Editing: {{ list.listname }}</h2>
 
-<div id="save_changes" style="margin-bottom: 1em;">
+<span id="save_changes">
 Save changes
-</div>
+</span>
 
+<span id="add_new">
+Add new item
+</span>
+
+<div style="margin-top: 1em"></div>
 <div style="display: none;">
 <form id="checklist_order_form" method="post" action="/checklist/edit/{{ list.id }}">
 {{ form }}
