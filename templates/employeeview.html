@@ -58,8 +58,11 @@ $(document).ready(function(){
 
 </script>
 
-<h1>{{ employee.name }}</h1>
-
+<div class="futu-box">
+	<div class="futu-box-header">
+		<h1>{{ employee.name }}</h1>
+	</div>
+	<div class="futu-box-content">
 <form method="post" action="/checklist/update/employeeinfo/{{ employee.id }}" class="autosave" id="form_header">
 {% csrf_token %}
 <legend><img src="/checklist/static/blank.png" id="progress_header"></legend>
@@ -68,9 +71,14 @@ $(document).ready(function(){
 
 </table>
 </form>
+	</div>
+</div>
 
-
-<h1>Your items</h1>
+<div class="futu-box">
+	<div class="futu-box-header">
+		<h1>Your items</h1>
+	</div>
+	<div class="futu-box-content">
 
 <p>Please note: additional items in list below this (<b>Other items</b>) may also apply to you. You should not ignore it.</p>
 
@@ -86,7 +94,15 @@ $(document).ready(function(){
 </form>
 {% endfor %}
 
-<h1>Other items</h1>
+	</div>
+</div>
+
+<div class="futu-box">
+	<div class="futu-box-header">
+		<h1>Other items</h1>
+	</div>
+	<div class="futu-box-content">
+
 {% for listitem in listitems_others %}
 <form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
 <div class="dwrap">
@@ -98,5 +114,6 @@ $(document).ready(function(){
 </div>
 </form>
 {% endfor %}
-
+	</div>
+</div>
 {% endblock %}

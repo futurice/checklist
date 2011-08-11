@@ -7,6 +7,11 @@
  });
 </script>
 
+<div class="futu-box">
+	<div class="futu-box-header">
+		<h1>Add new employee to checklist</h1>
+	</div>
+	<div class="futu-box-content">
 <table>
 <form action="/checklist/new_employee" method="post">
 {% csrf_token %}
@@ -17,4 +22,6 @@
 </tr>
 </form>
 </table>
+	</div>
+</div>
 {% endblock %}

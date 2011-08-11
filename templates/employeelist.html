@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<div class="futu-box"> 
+	<div class="futu-box-header"> 
+		<h1>Active employees</h1>
+	</div>
+	<div class="futu-box-content">
 <h1>{{ listname }}</h1>
 
-<h1>Active employees</h1>
-<table>
+<table style="width:100%">
  <tr>
   <th>Name</th>
   <th>Start date</th>
@@ -26,9 +31,17 @@
  </tr>
 {% endfor %}
 </table>
+	</div>
+</div>
 
-<h1>Archived employees</h1>
-<table>
+
+<div class="futu-box"> 
+	<div class="futu-box-header"> 
+		<h1>Archived employees</h1>
+	</div>
+	<div class="futu-box-content">
+
+<table style="width:100%">
  <tr>
   <th>Name</th>
   <th>Start date</th>
@@ -50,5 +63,6 @@
  </tr>
 {% endfor %}
 </table>
-
+	</div>
+</div>
 {% endblock %}

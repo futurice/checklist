@@ -38,8 +38,11 @@
 {% endblock %}
 
 {% block content %}
-<h2>Editing: {{ list.listname }}</h2>
-
+<div class="futu-box">
+	<div class="futu-box-header">
+		<h1>Editing: {{ list.listname }}</h1>
+	</div>
+	<div class="futu-box-content">
 <span id="save_changes">
 Save changes
 </span>
@@ -60,5 +63,7 @@ Add new item
  <li class="ui-state-default" id="{{ item.id }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a href="/checklist/edit/{{ list.id }}/edit/{{ item.id }}">{{ item.itemname }} ({{ item.unit }})</a></li>
 {% endfor %}
 </ul>
+</div>
+	</div>
 </div>
 {% endblock %}

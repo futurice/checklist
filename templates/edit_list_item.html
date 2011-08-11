@@ -41,10 +41,19 @@ $( "#dialog-confirm" ).dialog({
 {% endblock %}
 
 {% block content %}
-
 <div id="dialog-confirm" title="Delete this item?">
 	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
 </div>
+<form id="deleteform" method="POST" action="?action=delete">
+   {{ deleteform }}
+</form>
+
+<div class="futu-box">
+	<div class="futu-box-header">
+		<h1>Edit item</h1>
+	</div>
+
+	<div class="futu-box-content">
 
 <form id="editform" method="POST" action="?">
 <table>
@@ -53,14 +62,12 @@ $( "#dialog-confirm" ).dialog({
 {{ form }}
 </table>
 </form>
-
-
-<form id="deleteform" method="POST" action="?action=delete">
-   {{ deleteform }}
-</form>
-
 <span id="save_button">Save</span>
 <span id="goback_button">Back to list</span>
 <span id="delete_button">Delete</span>
+	</div>
+</div>
+
+
 {% endblock %}
 
