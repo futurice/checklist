@@ -22,12 +22,12 @@ class ChecklistItem(models.Model):
         ordering = ('listname', 'unit','order','itemname')
 
     listname = models.ForeignKey('Checklist')
-    itemname = models.CharField(max_length=200, verbose_name="Item Name")
-    textbox = models.BooleanField(default=False, verbose_name="Enable Textbox")
+    itemname = models.CharField(max_length=200, verbose_name="Item Name", help_text="Name shown in checklist")
+    textbox = models.BooleanField(default=False, verbose_name="Enable Textbox", help_text="Optional textbox next to checklist item for additional data")
     order = models.IntegerField(verbose_name="Order in Checklist")
-    unit = models.CharField(max_length=50, verbose_name="Responsible Team")
+    unit = models.CharField(max_length=50, verbose_name="Responsible Team", help_text="Only single team: IT/HR admin/Finance/Supervisor")
     item_pair = models.ForeignKey('ChecklistItem', null=True, blank=True)
-    checkpoint = models.ForeignKey('Checkpoint', null=True, blank=True)
+    checkpoint = models.ForeignKey('Checkpoint', null=True, blank=True, help_text="Optional. Not yet implemented, just skip.")
 
     def __unicode__(self):
         return self.itemname
