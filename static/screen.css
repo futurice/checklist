@@ -14,6 +14,7 @@ tr.your_employee {
 .dwrap {
  width: 900px;
  height: 1.7em;
+ clear:both;
 }
 .dwrap_saving {
  width: 17px;
@@ -24,16 +25,16 @@ tr.your_employee {
  float: left;
 }
 .dwrap_2 {
- width: 133px;
+ width: 100px;
  float: left;
 }
 .dwrap_3 {
- /*width: 500px;*/
+ width: 559px;
  border: 1px;
  float: left;
 }
 .dwrap_4 {
- width: 125px;
+ width: 165px;
  border: 1px;
  float: left;
  margin-left: 5px;
