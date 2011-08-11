@@ -54,9 +54,11 @@ Add new item
 {{ form }}
 </form>
 </div>
+<div style="width:1500px">
 <ul id="sortable">
 {% for item in items %}
  <li class="ui-state-default" id="{{ item.id }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a href="/checklist/edit/{{ list.id }}/edit/{{ item.id }}">{{ item.itemname }} ({{ item.unit }})</a></li>
 {% endfor %}
 </ul>
+</div>
 {% endblock %}

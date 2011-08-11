@@ -22,7 +22,7 @@ class ChecklistItem(models.Model):
         ordering = ('listname', 'unit','order','itemname')
 
     listname = models.ForeignKey('Checklist')
-    itemname = models.CharField(max_length=100, verbose_name="Item Name")
+    itemname = models.CharField(max_length=200, verbose_name="Item Name")
     textbox = models.BooleanField(default=False, verbose_name="Enable Textbox")
     order = models.IntegerField(verbose_name="Order in Checklist")
     unit = models.CharField(max_length=50, verbose_name="Responsible Team")

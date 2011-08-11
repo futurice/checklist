@@ -33,6 +33,7 @@ class ListItemForm(ModelForm):
     class Meta:
         model = ChecklistItem
         widgets = {
+            'itemname': forms.TextInput(attrs={'size': 90}),
             'listname': forms.HiddenInput(),
             'order': forms.HiddenInput(),
             'item_pair': forms.HiddenInput(),

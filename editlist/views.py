@@ -60,8 +60,11 @@ def edit_list_item(request, action, item_id, list_id, template_name):
             item = form.save(commit=False)
             item.listname = list
             if action == 'new':
-                largest_order = ChecklistItem.objects.filter(listname=list).order_by("-order")[0].order
-                item.order = largest_order + 1
+                try:
+                    largest_order = ChecklistItem.objects.filter(listname=list).order_by("-order")[0].order
+                    item.order = largest_order + 1
+                except:
+                    largest_order = 0
                 item.save()
                 return HttpResponseRedirect("/checklist/edit/%s/edit/%s" % (list_id, item.id))
             item.save()
