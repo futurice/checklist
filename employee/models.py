@@ -41,6 +41,7 @@ EMPLOYEE_STATES= (
 class Employee(models.Model):
     listname = models.ForeignKey('Checklist')
     name = models.CharField(max_length=100)
+    ldap_account = models.CharField(max_length=10, blank=True)
     start_date = models.DateField(verbose_name="Date")
     confirmed = models.BooleanField(default=False, verbose_name="Confirmed/public")
     archived = models.BooleanField(default=False)
