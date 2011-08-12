@@ -1,6 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if not my_items and not authorized %}
+<div class="futu-box">
+	<div class="futu-box-header">
+		<h1>Checklist software</h1>
+	</div>
+	<div class="futu-box-content">
+		You don't have any checklists, and you don't have permission to view other's lists.
+	</div>
+</div>
+{% endif %}
+{% if my_items %}
+<div class="futu-box">
+	<div class="futu-box-header">
+		<h1>Your items</h1>
+	</div>
+	<div class="futu-box-content">
+<ul>
+{% for list in my_items %}
+<li><a href="/checklist/employeeview/{{ list.id }}">{{ list.listname }} - {{ list.start_date }}</a></li>
+{% endfor %}
+</ul>
+	</div>
+</div>
+
+{% endif %}
+
+{% if authorized %}
 <div class="futu-box">
 	<div class="futu-box-header">
 		<h1>Select list</h1>
@@ -13,4 +40,5 @@
 </ul>
 	</div>
 </div>
+{% endif %}
 {% endblock %}

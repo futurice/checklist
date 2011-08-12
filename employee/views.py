@@ -24,8 +24,17 @@ def determine_group(username):
     return "Undefined"
 
 def indexview(request, template_name):
+    ret = {}
+    username = request.META["REMOTE_USER"]
+    unit = determine_group(username)
+    if unit != "Undefined":
+        ret["authorized"] = True
     lists = Checklist.objects.all()
-    return render_to_response(template_name, {'lists': lists}, context_instance=RequestContext(request))
+    my_items = Employee.objects.filter(ldap_account=username).order_by("start_date")
+    if len(lists) > 0:
+        ret["my_items"] = my_items
+    ret["lists"] = lists
+    return render_to_response(template_name, ret, context_instance=RequestContext(request))
 
 def employeelist(request, template_name, list_id):
     username = request.META["REMOTE_USER"]
@@ -74,8 +83,9 @@ def employeeview(request, template_name, employee_id):
     employee = Employee.objects.get(id=employee_id)
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
-    if unit == "Undefined":
-        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+    if employee.ldap_account != username:
+        if unit == "Undefined":
+            return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
     items_yours = ChecklistItem.objects.filter(listname=employee.listname.id).filter(unit=unit)
     items_others = ChecklistItem.objects.filter(listname=employee.listname.id).exclude(unit=unit)
 
@@ -96,8 +106,9 @@ def update_employeelist(request, template_name, employee_id, item_id):
     (employee_item, created) = EmployeeItem.objects.get_or_create(employee=employee, item=listitem, listname=employee.listname)
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
-    if unit == "Undefined":
-        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+    if employee.ldap_account != username:
+        if unit == "Undefined":
+            return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
 
     if "checkbox" in request.POST.keys():
         if request.POST["checkbox"] == 'on' or request.POST["checkbox"] == 'true':
@@ -119,6 +130,11 @@ def update_employeelist(request, template_name, employee_id, item_id):
 def update_employeeinfo(request, template_name, employee_id):
     employee = Employee.objects.get(id=employee_id)
     keys = {"success": True, "form": "headerform", "key": "header"}
+    username = request.META["REMOTE_USER"]
+    unit = determine_group(username)
+    if employee.ldap_account != username:
+        if unit == "Undefined":
+            return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
     if request.method == 'POST':
         formset = EmployeeHeader(request.POST, instance=employee)
         if formset.is_valid():
@@ -130,6 +146,10 @@ def update_employeeinfo(request, template_name, employee_id):
     return render_to_response(template_name, {"keys": keys}, context_instance=RequestContext(request))    
 
 def new_employee(request, template_name):
+    username = request.META["REMOTE_USER"]
+    unit = determine_group(username)
+    if unit == "Undefined":
+        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
     if request.method == 'POST': # If the form has been submitted...
         form = NewEmployee(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
