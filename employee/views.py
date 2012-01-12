@@ -15,7 +15,7 @@ import json
 def determine_group(username):
     if username in ["ojar", "valh", "mmal", "lekl", "spiq", "lrom"]:
         return "IT"
-    if username in ["srot", "llem", "pjal", "aker", "jero", "hnev", "ltan"]:
+    if username in ["srot", "llem", "pjal", "aker", "jero", "hnev", "ltan", "kleh", "vwel"]:
         return "HR admin"
     if username in ["atol", "hnev", "hdah", "hhol", "hsik", "lelo", "mtau", "mcal", "mmal", "mhaa", "mjyl", "msam", "mleh", "mvih", "mvii", "ovan", "ohaa", "phou", "pjal", "rjarv", "sham", "tmoi", "tsuo", "tkaj", "tsyr", "vtoi"]:
         return "Supervisor"

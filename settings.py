@@ -92,11 +92,14 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'checklist.employee',
     'south',
-#    'sentry.client',
+    'paging',
+    'indexer',
+    'raven.contrib.django',
 )
 
+SENTRY_TESTING = True
 SENTRY_KEY = 'js52wjdsoisr78fgs1f0g415safg1'
-SENTRY_REMOTE_URL = 'https://sentry.futurice.com/sentry/store/'
+SENTRY_SERVERS = ['https://sentry.futurice.com/sentry/store/']
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                "django.core.context_processors.debug",

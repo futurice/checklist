@@ -36,7 +36,8 @@ EMPLOYEE_STATES= (
     ('S', 'Summer worker'),
     ('P', 'Part-timer'),
     ('T', 'Fixed-term'),
-    ('A', 'Permanent'))
+    ('A', 'Permanent'),
+    ('E', 'External'))
 
 class Employee(models.Model):
     listname = models.ForeignKey('Checklist')
