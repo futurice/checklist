@@ -13,11 +13,11 @@ from datetime import date
 import json
 
 def determine_group(username):
-    if username in ["ojar", "valh", "mmal", "lekl", "spiq", "lrom"]:
+    if username in ["ojar", "valh", "mmal", "lekl", "spiq", "lrom", "btab"]:
         return "IT"
     if username in ["srot", "llem", "pjal", "aker", "jero", "hnev", "ltan", "kleh", "vwel"]:
         return "HR admin"
-    if username in ["atol", "hnev", "hdah", "hhol", "hsik", "lelo", "mtau", "mcal", "mmal", "mhaa", "mjyl", "msam", "mleh", "mvih", "mvii", "ovan", "ohaa", "phou", "pjal", "rjarv", "sham", "tmoi", "tsuo", "tkaj", "tsyr", "vtoi"]:
+    if username in ["osak", "atol", "hnev", "hdah", "hhol", "hsik", "lelo", "mtau", "mcal", "mmal", "mhaa", "mjyl", "msam", "mleh", "mvih", "mvii", "ovan", "ohaa", "phou", "pjal", "rjarv", "sham", "tmoi", "tsuo", "tkaj", "tsyr", "vtoi"]:
         return "Supervisor"
     if username in ["tsuo"]:
         return "Finance"
