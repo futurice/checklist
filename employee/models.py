@@ -1,7 +1,18 @@
 from django.db import models
 import datetime
 
-# Create your models here.
+class EmployeeItemLog(models.Model):
+    employee = models.ForeignKey('Employee')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    item = models.ForeignKey('ChecklistItem')
+    value = models.BooleanField(default=False)
+    textvalue = models.CharField(max_length=200,blank=True, null=True)
+
+class EmployeeLog(models.Model):
+    employee = models.ForeignKey('Employee')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    changes = models.TextField()
+
 class Checklist(models.Model):
     listname = models.CharField(max_length=200)
     def __unicode__(self):
@@ -39,6 +50,15 @@ EMPLOYEE_STATES= (
     ('A', 'Permanent'),
     ('E', 'External'))
 
+LOCATIONS = (
+    ('U', 'Unknown'),
+    ('B', 'Berlin'),
+    ('D', 'Dusseldorf'),
+    ('H', 'Helsinki'),
+    ('L', 'Lontoo'),
+    ('T', 'Tampere'),
+)
+
 class Employee(models.Model):
     listname = models.ForeignKey('Checklist')
     name = models.CharField(max_length=100)
@@ -49,6 +69,7 @@ class Employee(models.Model):
     deleted = models.BooleanField(default=False)
     
     employee_state = models.CharField(max_length=1, choices=EMPLOYEE_STATES, default='A')
+    location = models.CharField(max_length=1, choices=LOCATIONS, default='U')
     phone = models.CharField(max_length=30, blank=True, verbose_name="Phone number")
     email = models.CharField(max_length=150, blank=True, verbose_name="Contact email")
     email_notifications = models.BooleanField(default=True)

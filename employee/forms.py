@@ -13,7 +13,7 @@ class DeleteForm(forms.Form):
 class NewEmployee(ModelForm):
     class Meta:
         model = Employee
-        fields = ('name', 'start_date', 'confirmed', 'listname')
+        fields = ('name', 'start_date', 'confirmed', 'listname', 'location', 'employee_state')
         widgets = {
             'start_date': forms.DateInput(),
         }

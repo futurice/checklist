@@ -25,8 +25,6 @@
                    }
                 });
 		$( "#sortable" ).disableSelection();
-                $("#save_changes").button();
-                $("#add_new").button();
                 $("#save_changes").click(function() {
                   $("#checklist_order_form").submit();
                 });
@@ -38,18 +36,15 @@
 {% endblock %}
 
 {% block content %}
-<div class="futu-box">
-	<div class="futu-box-header">
-		<h1>Editing: {{ list.listname }}</h1>
-	</div>
-	<div class="futu-box-content">
-<span id="save_changes">
-Save changes
-</span>
+<h1>Editing: {{ list.listname }}</h1>
 
-<span id="add_new">
+<button class="btn btn-primary" id="save_changes">
+Save changes
+</button>
+
+<button class="btn" id="add_new">
 Add new item
-</span>
+</button>
 
 <div style="margin-top: 1em"></div>
 <div style="display: none;">
@@ -57,13 +52,12 @@ Add new item
 {{ form }}
 </form>
 </div>
-<div style="width:1500px">
+<div class="row6">
 <ul id="sortable">
 {% for item in items %}
  <li class="ui-state-default" id="{{ item.id }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a href="/checklist/edit/{{ list.id }}/edit/{{ item.id }}">{{ item.itemname }} ({{ item.unit }})</a></li>
 {% endfor %}
 </ul>
 </div>
-	</div>
-</div>
+
 {% endblock %}

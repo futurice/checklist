@@ -21,17 +21,14 @@ $( "#dialog-confirm" ).dialog({
         autoOpen: false
 });
 
-  $("#save_button").button();
   $("#save_button").click(function () {
    $("#editform").submit();
   });
 
-  $("#delete_button").button();
   $("#delete_button").click(function () {
    $("#dialog-confirm").dialog("open");
   });
 
-  $("#goback_button").button();
   $("#goback_button").click(function() {
     window.location.href = "/checklist/edit/{{ list_id }}";
   });
@@ -48,12 +45,7 @@ $( "#dialog-confirm" ).dialog({
    {{ deleteform }}
 </form>
 
-<div class="futu-box">
-	<div class="futu-box-header">
-		<h1>Edit item</h1>
-	</div>
-
-	<div class="futu-box-content">
+<h1>Edit item</h1>
 
 <form id="editform" method="POST" action="?">
 <table>
@@ -62,11 +54,9 @@ $( "#dialog-confirm" ).dialog({
 {{ form }}
 </table>
 </form>
-<span id="save_button">Save</span>
-<span id="goback_button">Back to list</span>
-<span id="delete_button">Delete</span>
-	</div>
-</div>
+<button class="btn btn-primary" id="save_button">Save</button>
+<button class="btn" id="goback_button">Back to list</button>
+<button class="btn btn-danger" id="delete_button">Delete</button>
 
 
 {% endblock %}

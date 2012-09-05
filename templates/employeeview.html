@@ -39,30 +39,31 @@ $(document).ready(function(){
   success: function(data) { process_success(data) },
   send: function(data) { process_send(data) }
  });
+ var autosave_options = {grouped: false, success: function(data) { process_success(data) }, send: function(data) { process_send(data) }  };
+
  {% for listitem in listitems_yours %} 
-  $("#form_{{ listitem.id }}").autosave({
-   grouped: false,
-   success: function(data) { process_success(data) },
-   send: function(data) { process_send(data) }
-  });
- {% endfor %}
+  $("#form_{{ listitem.id }}").autosave(autosave_options); {% endfor %}
  {% for listitem in listitems_others %} 
-  $("#form_{{ listitem.id }}").autosave({
-   grouped: false,
-   success: function(data) { process_success(data) },
-   send: function(data) { process_send(data) }
-  });
- {% endfor %}
+  $("#form_{{ listitem.id }}").autosave(autosave_options); {% endfor %}
  
 });
 
 </script>
 
-<div class="futu-box">
-	<div class="futu-box-header">
-		<h1>{{ employee.name }}</h1>
-	</div>
-	<div class="futu-box-content">
+<h1>{{ employee.name }}</h1>
+
+{% if employee.archived %}
+<a href="/checklist/update/employee/state/archive/{{ employee.id }}" id="archive_user" class="btn">Unarchive</a> 
+{% else %}
+<a href="/checklist/update/employee/state/archive/{{ employee.id }}" id="archive_user" class="btn btn-warning">Archive</a> 
+{% endif %}
+
+{% if employee.deleted %}
+<a href="/checklist/update/employee/state/delete/{{ employee.id }}" id="delete_user" class="btn">Undelete</a>
+{% else %}
+<a href="/checklist/update/employee/state/delete/{{ employee.id }}" id="delete_user" class="btn btn-danger">Delete</a>
+{% endif %}
+
 <form method="post" action="/checklist/update/employeeinfo/{{ employee.id }}" class="autosave" id="form_header">
 {% csrf_token %}
 <legend><img src="/checklist/static/blank.png" id="progress_header"></legend>
@@ -71,14 +72,8 @@ $(document).ready(function(){
 
 </table>
 </form>
-	</div>
-</div>
 
-<div class="futu-box">
-	<div class="futu-box-header">
-		<h1>Your items</h1>
-	</div>
-	<div class="futu-box-content">
+<h1>Your items</h1>
 
 <p>Please note: additional items in list below this (<b>Other items</b>) may also apply to you. You should not ignore it.</p>
 
@@ -95,14 +90,8 @@ $(document).ready(function(){
 {% endfor %}
 
 <div style="clear:both;margin-top:2em;"></div>
-	</div>
-</div>
 
-<div class="futu-box">
-	<div class="futu-box-header">
-		<h1>Other items</h1>
-	</div>
-	<div class="futu-box-content">
+<h1>Other items</h1>
 
 {% for listitem in listitems_others %}
 <form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
@@ -116,6 +105,4 @@ $(document).ready(function(){
 </form>
 {% endfor %}
 <div style="clear:both;margin-top:2em;"></div>
-	</div>
-</div>
 {% endblock %}

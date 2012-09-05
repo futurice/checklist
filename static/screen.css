@@ -1,9 +1,11 @@
-tr.even {  }
-tr.odd {
-    background-color: #f0f0f0;
+tr.old {
+    background-color: #eeffee;
+}
+tr.new {
+    background-color: #ffeeee;
 }
 tr.your_employee {
-    background-color: #ffaaaa;
+    background-color: #ffaaaa !important;
 }
 
 /*default value*/

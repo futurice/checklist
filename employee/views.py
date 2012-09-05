@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
-from checklist.employee.forms import NewEmployee, EmployeeHeader, ListItemForm
+from checklist.employee.forms import NewEmployee, EmployeeHeader, ListItemForm, DeleteForm
 from checklist.employee.models import Checklist, ChecklistItem, Employee, EmployeeItem
 from datetime import date
 import json
@@ -36,11 +36,25 @@ def indexview(request, template_name):
     ret["lists"] = lists
     return render_to_response(template_name, ret, context_instance=RequestContext(request))
 
+def toggle_state_employee(request, action, employee_id):
+    username = request.META["REMOTE_USER"]
+    unit = determine_group(username)
+    if unit == "Undefined":
+        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+    employee = get_object_or_404(Employee, pk=employee_id)
+    if action == "delete":
+        employee.deleted = not employee.deleted
+    if action == "archive":
+        employee.archived = not employee.archived
+    employee.save()
+    return HttpResponseRedirect('/checklist/employeeview/%s' % employee.id)
+
 def employeelist(request, template_name, list_id):
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
     if unit == "Undefined":
         return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+    list = Checklist.objects.get(id=list_id)
     employees = Employee.objects.filter(listname=list_id,deleted=False,archived=False)
     employees_archived = Employee.objects.filter(listname=list_id,deleted=False,archived=True)
 
@@ -62,7 +76,7 @@ def employeelist(request, template_name, list_id):
 
 #    (employee_item, created) = EmployeeItem.objects.get_or_create(employee=employee, item=listitem, listname=employee.listname)
  
-    return render_to_response(template_name, {'employees': employees, 'archived': employees_archived }, context_instance=RequestContext(request))
+    return render_to_response(template_name, {'listname': list.listname, 'employees': employees, 'archived': employees_archived }, context_instance=RequestContext(request))
 
 
 def __combine_lists(employee_dict, items):
@@ -111,7 +125,7 @@ def update_employeelist(request, template_name, employee_id, item_id):
             return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
 
     if "checkbox" in request.POST.keys():
-        if request.POST["checkbox"] == 'on' or request.POST["checkbox"] == 'true':
+        if request.POST["checkbox"] == 'on' or request.POST["checkbox"] == 'true' or request.POST["checkbox"] == "checked":
             employee_item.value = True
         else:
             employee_item.value = False
