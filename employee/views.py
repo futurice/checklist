@@ -8,19 +8,16 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
 from checklist.employee.forms import NewEmployee, EmployeeHeader, ListItemForm, DeleteForm
-from checklist.employee.models import Checklist, ChecklistItem, Employee, EmployeeItem
+from checklist.employee.models import Checklist, ChecklistItem, Employee, EmployeeItem, UserPermissions
 from datetime import date
 import json
 
+
+
 def determine_group(username):
-    if username in ["ojar", "valh", "mmal", "lekl", "spiq", "lrom", "btab"]:
-        return "IT"
-    if username in ["srot", "llem", "pjal", "aker", "jero", "hnev", "ltan", "kleh", "vwel"]:
-        return "HR admin"
-    if username in ["osak", "atol", "hnev", "hdah", "hhol", "hsik", "lelo", "mtau", "mcal", "mmal", "mhaa", "mjyl", "msam", "mleh", "mvih", "mvii", "ovan", "ohaa", "phou", "pjal", "rjarv", "sham", "tmoi", "tsuo", "tkaj", "tsyr", "vtoi"]:
-        return "Supervisor"
-    if username in ["tsuo"]:
-        return "Finance"
+    user = UserPermissions.objects.filter(username=username)
+    for item in user:
+        return item.group
     return "Undefined"
 
 def indexview(request, template_name):

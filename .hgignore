@@ -3,3 +3,4 @@ syntax: glob
 data.sqlite
 checklist.pid
 data*.json
+static/*

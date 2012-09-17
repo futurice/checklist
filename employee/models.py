@@ -1,6 +1,25 @@
 from django.db import models
 import datetime
 
+USER_GROUPS = (
+   ("IT", "IT"),
+   ("HR", "HR admin"),
+   ("SU", "Supervisor"),
+   ("UN", "Undefined")
+)
+
+class UserPermissions(models.Model):
+    username = models.CharField(max_length=50)
+    group = models.CharField(max_length=2, choices=USER_GROUPS, default='UN')
+
+    def __unicode__(self):
+        return "%s: %s" % (self.username, self.group)
+
+    class Meta:
+        ordering = ('username', )
+        verbose_name_plural = 'User permissions'
+
+
 class EmployeeItemLog(models.Model):
     employee = models.ForeignKey('Employee')
     timestamp = models.DateTimeField(auto_now_add=True)

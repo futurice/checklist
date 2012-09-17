@@ -53,10 +53,12 @@ MEDIA_ROOT = ''
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = ''
 
+STATIC_URL = '/checklist/static/'
+
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/adminmedia/'
+ADMIN_MEDIA_PREFIX = 'https://cdn.futurice.com/django/1.3/static/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '=$f@fb4zae!)0z51157fdfzvbs<dawgherhndndverao36zr+$thy#lx_u$a=_'
@@ -90,6 +92,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'django.contrib.staticfiles',
     'checklist.employee',
     'south',
     'paging',
