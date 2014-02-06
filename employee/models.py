@@ -5,6 +5,9 @@ USER_GROUPS = (
    ("IT", "IT"),
    ("HR", "HR admin"),
    ("SU", "Supervisor"),
+   ("DH", "HR"),
+   ("DA", "ADMIN"),
+   ("DS", "DE Supervisor"),
    ("UN", "Undefined")
 )
 
