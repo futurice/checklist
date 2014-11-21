@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block header %}
+	<style>
+	#sortable { list-style-type: none; margin: 0; padding: 0; }
+	#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; height: 18px; }
+	#sortable li span { position: absolute; margin-left: -1.3em; }
+	</style>
+	<script>
+	$(function() {
+		$( "#sortable" ).sortable({update: function() {
+                     $(this).find(".ui-state-default").each(function(i) {
+                      id = $(this).attr("id");
+                      num = false;
+                      $("#checklist_order_form").find("input[id$=id]").each(function(i) {
+                       if ($(this).val() == id) {
+                        num = $(this).attr("id").replace("id_form-", "").replace("-id", "");
+                        return false;
+                       }
+                      });
+                      if (num !== false) {
+                         $("#id_form-"+num+"-order").val(i);
+                      }
+                     });
+                   }
+                });
+		$( "#sortable" ).disableSelection();
+                $("#save_changes").click(function() {
+                  $("#checklist_order_form").submit();
+                });
+                $("#add_new").click(function() {
+                  window.location.href = "/checklist/edit/{{ list.id }}/add";
+                });
+	});
+	</script>
+{% endblock %}
+
+{% block content %}
+<h1>Editing: {{ list.listname }}</h1>
+
+<button class="btn btn-primary" id="save_changes">
+Save changes
+</button>
+
+<button class="btn" id="add_new">
+Add new item
+</button>
+
+<div style="margin-top: 1em"></div>
+<div style="display: none;">
+<form id="checklist_order_form" method="post" action="/checklist/edit/{{ list.id }}">
+{{ form }}
+</form>
+</div>
+<div class="row6">
+<ul id="sortable">
+{% for item in items %}
+ <li class="ui-state-default" id="{{ item.id }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a href="/checklist/edit/{{ list.id }}/edit/{{ item.id }}">{{ item.itemname }} ({{ item.unit }})</a></li>
+{% endfor %}
+</ul>
+</div>
+
+{% endblock %}

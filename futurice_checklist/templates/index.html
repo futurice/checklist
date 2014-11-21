@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+<div class="span12">
+{% if not my_items and not authorized %}
+		<h1>Checklist software</h1>
+		<p>You don't have any checklists, and you don't have permission to view other's lists.</p>
+{% endif %}
+{% if my_items %}
+<h1>Your items</h1>
+
+<ul>
+{% for list in my_items %}
+<li><a href="/checklist/employeeview/{{ list.id }}">{{ list.listname }} - {{ list.start_date }}</a></li>
+{% endfor %}
+</ul>
+
+{% endif %}
+
+{% if authorized %}
+<h1>Select list</h1>
+
+<ul>
+{% for list in lists %}
+ <li><a href="/checklist/listview/{{ list.id }}">{{ list.listname }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+</div>
+</div>
+{% endblock %}

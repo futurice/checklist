@@ -1,0 +1,43 @@
+tr.old {
+    background-color: #eeffee;
+}
+tr.new {
+    background-color: #ffeeee;
+}
+tr.your_employee {
+    background-color: #ffaaaa !important;
+}
+
+/*default value*/
+.default-value{
+    color: grey;
+    font-style: italic;
+}
+.dwrap {
+ width: 900px;
+ height: 1.7em;
+ clear:both;
+}
+.dwrap_saving {
+ width: 17px;
+ float: left;
+}
+.dwrap_1 {
+ width: 25px;
+ float: left;
+}
+.dwrap_2 {
+ width: 100px;
+ float: left;
+}
+.dwrap_3 {
+ width: 559px;
+ border: 1px;
+ float: left;
+}
+.dwrap_4 {
+ width: 165px;
+ border: 1px;
+ float: left;
+ margin-left: 5px;
+}

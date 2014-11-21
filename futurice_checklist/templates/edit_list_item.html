@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block header %}
+
+<script type="text/javascript">
+ $(function () {
+$( "#dialog-confirm" ).dialog({
+	resizable: false,
+	height:230,
+        width: 400,
+	modal: true,
+	buttons: {
+		"Delete": function() {
+                        $("#deleteform").submit();
+			$( this ).dialog( "close" );
+		},
+		Cancel: function() {
+			$( this ).dialog( "close" );
+		}
+	},
+        autoOpen: false
+});
+
+  $("#save_button").click(function () {
+   $("#editform").submit();
+  });
+
+  $("#delete_button").click(function () {
+   $("#dialog-confirm").dialog("open");
+  });
+
+  $("#goback_button").click(function() {
+    window.location.href = "/checklist/edit/{{ list_id }}";
+  });
+ });
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div id="dialog-confirm" title="Delete this item?">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+<form id="deleteform" method="POST" action="?action=delete">
+   {{ deleteform }}
+</form>
+
+<h1>Edit item</h1>
+
+<form id="editform" method="POST" action="?">
+<table>
+
+{% csrf_token %}
+{{ form }}
+</table>
+</form>
+<button class="btn btn-primary" id="save_button">Save</button>
+<button class="btn" id="goback_button">Back to list</button>
+<button class="btn btn-danger" id="delete_button">Delete</button>
+
+
+{% endblock %}
+
