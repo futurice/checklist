@@ -2,6 +2,8 @@ from employee.models import Checklist, ChecklistItem, Employee, EmployeeItem, Ch
 from django.contrib import admin
 
 def check_permission(aself, request, group):
+    if request.user.is_superuser:
+        return True
     try:
         user = UserPermissions.objects.filter(username=request.user.username)
         for item in user:
@@ -11,76 +13,39 @@ def check_permission(aself, request, group):
         return False
     return False
 
-class UserPermissionsAdmin(admin.ModelAdmin):
+class AdminBase(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return check_permission(self, request, self.required_group)
+
+    def has_change_permission(self, request, *args):
+        return check_permission(self, request, self.required_group)
+
+    def has_delete_permission(self, request, *args):
+        return check_permission(self, request, self.required_group)
+
+class UserPermissionsAdmin(AdminBase):
     list_display = ['username', 'group']
     list_filter = ['group']
     required_group = ["IT", "HR", "SU"]
 
-    def has_add_permission(self, request):
-        return check_permission(self, request, self.required_group)
-
-    def has_change_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
-    def has_delete_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
-class ChecklistAdmin(admin.ModelAdmin):
+class ChecklistAdmin(AdminBase):
     list_display = ['listname']
     required_group = ["IT"]
 
-    def has_add_permission(self, request):
-        return check_permission(self, request, self.required_group)
-
-    def has_change_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
-    def has_delete_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
-class ChecklistItemAdmin(admin.ModelAdmin):
+class ChecklistItemAdmin(AdminBase):
     list_display = ['listname', 'itemname', 'unit']
     list_filter = ('listname', 'unit')
     required_group = ["IT"]
 
-    def has_add_permission(self, request):
-        return check_permission(self, request, self.required_group)
-
-    def has_change_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
-    def has_delete_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
-
-class EmployeeAdmin(admin.ModelAdmin):
+class EmployeeAdmin(AdminBase):
     list_display = ["listname", "name", "start_date"]
     list_filter = ("archived",)
     required_group = ["IT"]
 
-    def has_add_permission(self, request):
-        return check_permission(self, request, self.required_group)
-
-    def has_change_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
-    def has_delete_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
-class CheckpointAdmin(admin.ModelAdmin):
+class CheckpointAdmin(AdminBase):
     required_group = ["IT"]
 
-    def has_add_permission(self, request):
-        return check_permission(self, request, self.required_group)
-
-    def has_change_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
-    def has_delete_permission(self, request, *args):
-        return check_permission(self, request, self.required_group)
-
 admin.site.register(UserPermissions, UserPermissionsAdmin)
-
 admin.site.register(Checklist, ChecklistAdmin)
 admin.site.register(ChecklistItem, ChecklistItemAdmin)
 admin.site.register(Employee, EmployeeAdmin)
