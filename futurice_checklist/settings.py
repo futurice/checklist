@@ -27,6 +27,7 @@ INSTALLED_APPS = (
     'common',
     'employee',
     'editlist',
+    'reminders',
     #'south',
     #'raven.contrib.django',
 )
@@ -61,7 +62,8 @@ DATABASES = {
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates/'),
 )
-TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS +\
+('employee.context_processors.get_userinfo', 'employee.context_processors.get_reminders',)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

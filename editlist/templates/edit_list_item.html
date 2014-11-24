@@ -3,6 +3,7 @@
 {% block header %}
 
 <script type="text/javascript">
+var EDIT_CL = "{% url "edit_check" list_id %}";
  $(function () {
 $( "#dialog-confirm" ).dialog({
 	resizable: false,
@@ -30,7 +31,7 @@ $( "#dialog-confirm" ).dialog({
   });
 
   $("#goback_button").click(function() {
-    window.location.href = "/checklist/edit/{{ list_id }}";
+    window.location.href = EDIT_CL;
   });
  });
 </script>

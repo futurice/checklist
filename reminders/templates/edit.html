@@ -1,0 +1,40 @@
+{% extends "common/base.html" %}
+
+{% block header %}
+<script>
+      function Editor(input, preview)
+      {
+        this.update = function () {
+          preview.innerHTML = markdown.toHTML(input.value);
+        }
+        input.editor = this;
+        this.update();
+      }
+      var a = function (id) { return document.getElementById(id); };
+$(document).ready(function() {
+      new Editor(a("id_content"), a("preview"));
+      setInterval("a('id_content').editor.update()", 1000);
+      $("#id_content").css("width", "60em");
+      $("#id_content").css("height", "20em");
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>Edit list</h1>
+
+<div style="margin-top: 1em"></div>
+<form method="post" action="/checklist/reminders/edit/{{ list.id }}">
+<table>
+{{ form }}
+<tr><th></th><td><input type="submit" value="Save"></td></tr>
+</table>
+</form>
+
+<div id="preview">
+
+</div>
+
+</div>
+{% endblock %}
+

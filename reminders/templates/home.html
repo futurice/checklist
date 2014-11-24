@@ -1,0 +1,32 @@
+{% extends "common/base.html" %}
+
+{% block content %}
+<div class="row">
+<div class="span12">
+{% if not my_items and not authorized %}
+		<h1>Checklist software</h1>
+		<p>You don't have any checklists, and you don't have permission to view other's lists.</p>
+{% endif %}
+
+{% if authorized %}
+
+
+<h2>Reminder lists</h2>
+
+<p><a href="/checklist/reminders/create" class="btn btn-primary">Create new list</a>
+</p>
+
+<ul>
+{% for list in lists %}
+ <li><a href="/checklist/reminders/{{ list.id }}">{{ list.title }}</a></li>
+{% empty %}
+<li>No lists available</li>
+{% endfor %}
+</ul>
+
+{% endif %}
+
+</div>
+</div>
+
+{% endblock %}

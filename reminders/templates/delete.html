@@ -1,0 +1,17 @@
+{% extends "common/base.html" %}
+
+{% block content %}
+<h1>Delete list: {{ list.title }}</h1>
+
+<div style="margin-top: 1em"></div>
+<form method="post" action="/checklist/reminders/delete/{{ list.id }}">
+<table>
+<tr><td><a href="/checklist/reminders/{{ list.id }}" class="btn btn-primary">Cancel</a></td><td><input type="submit" value="Delete" class="btn btn-danger"></td></tr>
+</table>
+</form>
+
+
+</div>
+{% endblock %}
+
+
