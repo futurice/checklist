@@ -11,7 +11,7 @@ from employee.forms import NewEmployee, EmployeeHeader, ListItemForm, DeleteForm
 from django.forms.models import modelformset_factory
 
 from employee.models import Checklist, ChecklistItem, Employee, EmployeeItem
-from employee.views import determine_group
+from employee.util import determine_group
 from datetime import date
 import json
 
@@ -29,7 +29,7 @@ def edit_list(request, list_id, template_name):
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
     if unit == "Undefined":
-        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))   
+        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
     list = Checklist.objects.get(id=list_id)
     if request.method == 'POST':
         formset = ListItemFormset(request.POST, queryset=ChecklistItem.objects.filter(listname=list))
@@ -50,7 +50,7 @@ def edit_list_item(request, action, item_id, list_id, template_name):
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
     if unit == "Undefined":
-        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))   
+        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
     list = Checklist.objects.get(id=list_id)
     if request.method == 'POST':
         if request.GET.get("action") == "delete":
@@ -92,7 +92,7 @@ def edit_list_item(request, action, item_id, list_id, template_name):
             form = ListItemForm(instance=instance)
         else: # action = edit
             instance = ChecklistItem.objects.get(id=item_id)
-            form = ListItemForm(instance=instance)            
+            form = ListItemForm(instance=instance)
 
     return render_to_response(template_name, {'form': form, "list_id": list.id}, context_instance=RequestContext(request))
 

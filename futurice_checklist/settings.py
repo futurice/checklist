@@ -1,20 +1,7 @@
-"""
-Django settings for futurice_checklist project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.7/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.7/ref/settings/
-"""
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import django.conf.global_settings as DEFAULT_SETTINGS
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
+PACKAGE_ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
+PROJECT_ROOT = os.path.normpath(PACKAGE_ROOT)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'f0$5!!_^+roj!^nru@@%9eku33-%miucnd-ekczegyph9&v*(d'
@@ -37,25 +24,29 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #'checklist.employee',
+    'common',
+    'employee',
+    'editlist',
     #'south',
     #'raven.contrib.django',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'futurice_checklist.urls'
 
 WSGI_APPLICATION = 'futurice_checklist.wsgi.application'
 
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -63,9 +54,14 @@ WSGI_APPLICATION = 'futurice_checklist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(PROJECT_ROOT, 'db.sqlite3'),
     }
 }
+
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_ROOT, 'templates/'),
+)
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

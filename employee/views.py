@@ -5,32 +5,25 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import redirect, render, render_to_response, get_object_or_404
+
 from employee.forms import NewEmployee, EmployeeHeader, ListItemForm, DeleteForm
 from employee.models import Checklist, ChecklistItem, Employee, EmployeeItem, UserPermissions
+from employee.util import determine_group
+
 from datetime import date
 import json
 
-
-
-def determine_group(username):
-    user = UserPermissions.objects.filter(username=username)
-    for item in user:
-        return item.group
-    return "Undefined"
-
-def indexview(request, template_name):
+def indexview(request):
     ret = {}
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
+    unit = determine_group(request.user.username)
     if unit != "Undefined":
         ret["authorized"] = True
     lists = Checklist.objects.all()
-    my_items = Employee.objects.filter(ldap_account=username).order_by("start_date")
-    if len(lists) > 0:
-        ret["my_items"] = my_items
+    my_items = Employee.objects.filter(ldap_account=request.user.username).order_by("start_date")
+    ret["my_items"] = my_items
     ret["lists"] = lists
-    return render_to_response(template_name, ret, context_instance=RequestContext(request))
+    return render(request, 'index.html', ret)
 
 def toggle_state_employee(request, action, employee_id):
     username = request.META["REMOTE_USER"]
@@ -71,7 +64,7 @@ def employeelist(request, template_name, list_id):
             employee.your_employee = True
 
 #    (employee_item, created) = EmployeeItem.objects.get_or_create(employee=employee, item=listitem, listname=employee.listname)
- 
+
     return render_to_response(template_name, {'listname': list.listname, 'employees': employees, 'archived': employees_archived }, context_instance=RequestContext(request))
 
 
@@ -135,7 +128,7 @@ def update_employeelist(request, template_name, employee_id, item_id):
     employee_item.save()
     keys = {"success": True, "key": listitem.id, "employee_item_id": employee_item.id, "value": employee_item.value}
     keys = json.dumps(keys)
-    return render_to_response(template_name, {"keys": keys }, context_instance=RequestContext(request))    
+    return render_to_response(template_name, {"keys": keys }, context_instance=RequestContext(request))
 
 def update_employeeinfo(request, template_name, employee_id):
     employee = Employee.objects.get(id=employee_id)
@@ -153,7 +146,7 @@ def update_employeeinfo(request, template_name, employee_id):
             keys["success"] = False
 
     keys = json.dumps(keys)
-    return render_to_response(template_name, {"keys": keys}, context_instance=RequestContext(request))    
+    return render_to_response(template_name, {"keys": keys}, context_instance=RequestContext(request))
 
 def new_employee(request, template_name):
     username = request.META["REMOTE_USER"]
@@ -169,6 +162,6 @@ def new_employee(request, template_name):
     else:
         form = NewEmployee() # An unbound form
 
-    return render_to_response(template_name, {'form': form}, context_instance=RequestContext(request))    
+    return render_to_response(template_name, {'form': form}, context_instance=RequestContext(request))
 
 
