@@ -1,8 +1,12 @@
-{% extends "base.html" %}
+{% extends "common/base.html" %}
+{% load staticfiles %}
 
 {% block content %}
 
 <script type="text/javascript">
+var BLANK = "{% static "common/blank.png" %}";
+var OK = "{% static "common/ok.png" %}";
+var SPINNER = "{% static "common/spinner14.gif" %}";
 $.log = function(message){
      $('#log').append('<p>' + message + '</p>');
 };
@@ -10,12 +14,12 @@ $.log = function(message){
 var timeouts = Array();
 
 function switch_blank(node) {
-    $(node).attr("src", "/checklist/static/blank.png");
+    $(node).attr("src", BLANK);
 }
 function process_success(data) {
    if (data.success == true) {
     idname = "#progress_"+data.key;
-    $(idname).attr("src", "/checklist/static/ok.png");
+    $(idname).attr("src", OK);
     if (typeof timeouts[idname] != 'undefined') {
       clearTimeout(timeouts[idname]);
     }
@@ -29,7 +33,7 @@ function process_send(data) {
     id = $(data).closest('form').attr("id").split("_");
     id = id[1];
     idname = "#progress_"+id;
-    $(idname).attr("src", "/checklist/static/spinner14.gif");
+    $(idname).attr("src", SPINNER);
 }
 
 $(document).ready(function(){
@@ -41,11 +45,11 @@ $(document).ready(function(){
  });
  var autosave_options = {grouped: false, success: function(data) { process_success(data) }, send: function(data) { process_send(data) }  };
 
- {% for listitem in listitems_yours %} 
+ {% for listitem in listitems_yours %}
   $("#form_{{ listitem.id }}").autosave(autosave_options); {% endfor %}
- {% for listitem in listitems_others %} 
+ {% for listitem in listitems_others %}
   $("#form_{{ listitem.id }}").autosave(autosave_options); {% endfor %}
- 
+
 });
 
 </script>
@@ -53,20 +57,20 @@ $(document).ready(function(){
 <h1>{{ employee.name }}</h1>
 
 {% if employee.archived %}
-<a href="/checklist/update/employee/state/archive/{{ employee.id }}" id="archive_user" class="btn">Unarchive</a> 
+<a href="{% url "x_employee" "archive" employee.id %}" id="archive_user" class="btn">Unarchive</a>
 {% else %}
-<a href="/checklist/update/employee/state/archive/{{ employee.id }}" id="archive_user" class="btn btn-warning">Archive</a> 
+<a href="{% url "x_employee" "archive" employee.id %}" id="archive_user" class="btn btn-warning">Archive</a>
 {% endif %}
 
 {% if employee.deleted %}
-<a href="/checklist/update/employee/state/delete/{{ employee.id }}" id="delete_user" class="btn">Undelete</a>
+<a href="{% url "x_employee" "delete" employee.id %}" id="delete_user" class="btn">Undelete</a>
 {% else %}
-<a href="/checklist/update/employee/state/delete/{{ employee.id }}" id="delete_user" class="btn btn-danger">Delete</a>
+<a href="{% url "x_employee" "delete" employee.id %}" id="delete_user" class="btn btn-danger">Delete</a>
 {% endif %}
 
-<form method="post" action="/checklist/update/employeeinfo/{{ employee.id }}" class="autosave" id="form_header">
+<form method="post" action="{% url "update_info" employee.id %}" class="autosave" id="form_header">
 {% csrf_token %}
-<legend><img src="/checklist/static/blank.png" id="progress_header"></legend>
+<legend><img src="{% static "common/blank.png" %}" id="progress_header"></legend>
 <table>
 {{ employee_form }}
 
@@ -78,9 +82,9 @@ $(document).ready(function(){
 <p>Please note: additional items in list below this (<b>Other items</b>) may also apply to you. You should not ignore it.</p>
 
 {% for listitem in listitems_yours %}
-<form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
+<form method="post" action="{% url "update_employee" employee.id listitem.id %}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
 <div class="dwrap">
-<div class="dwrap_saving"><img src="/checklist/static/blank.png" id="progress_{{ listitem.id }}"></div>
+    <div class="dwrap_saving"><img src="{% static "common/blank.png" %}" id="progress_{{ listitem.id }}"></div>
 <div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
 <div class="dwrap_2"><small>{{ listitem.unit }}</small></div>
 <div class="dwrap_3">{{ listitem.itemname }}</div>
@@ -94,9 +98,9 @@ $(document).ready(function(){
 <h1>Other items</h1>
 
 {% for listitem in listitems_others %}
-<form method="post" action="/checklist/update/employeelist/{{ employee.id }}/{{ listitem.id }}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
+<form method="post" action="{% url "update_employee" employee.id listitem.id %}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
 <div class="dwrap">
-<div class="dwrap_saving"><img src="/checklist/static/blank.png" id="progress_{{ listitem.id }}"></div>
+<div class="dwrap_saving"><img src="{% static "common/blank.png" %}" id="progress_{{ listitem.id }}"></div>
 <div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
 <div class="dwrap_2"><small>{{ listitem.unit }}</small></div>
 <div class="dwrap_3">{{ listitem.itemname }}</div>
