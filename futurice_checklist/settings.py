@@ -77,10 +77,14 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
+MEDIA_ROOT = '{PROJECT_ROOT}/media/'.format(**locals())
+MEDIA_URL = '/media/'
 
+STATIC_ROOT = '{PROJECT_ROOT}/static/'.format(**locals())
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = ()
+STATICFILES_FINDERS = DEFAULT_SETTINGS.STATICFILES_FINDERS
 
 #SENTRY_TESTING = True
 #SENTRY_KEY = 'js52wjdsoisr78fgs1f0g415safg1'

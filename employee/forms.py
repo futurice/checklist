@@ -6,6 +6,7 @@ import datetime
 class ItemForm(ModelForm):
     class Meta:
         model = Checklist
+        exclude = ()
 
 class DeleteForm(forms.Form):
     pass
@@ -28,6 +29,7 @@ class EmployeeHeader(ModelForm):
             'archived': forms.HiddenInput(),
             'comments': forms.Textarea(attrs={'cols': 70, 'rows': 5})
         }
+        exclude = ()
 
 class ListItemForm(ModelForm):
     class Meta:
@@ -38,3 +40,4 @@ class ListItemForm(ModelForm):
             'order': forms.HiddenInput(),
             'item_pair': forms.HiddenInput(),
         }
+        exclude = ()

@@ -17,9 +17,10 @@ urlpatterns = patterns('',
     url(r'edit/(?P<list_id>[0-9]+)/add$', edit_list_item, kwargs={"template_name": "edit_list_item.html", "action": "new", "item_id": 0}),
     url(r'edit/(?P<list_id>[0-9]+)/edit/(?P<item_id>[0-9]+)$', edit_list_item, kwargs={"template_name": "edit_list_item.html", "action": "edit"}),
     url(r'edit/(?P<list_id>[0-9]+)$', edit_list, kwargs={"template_name": "edit_list.html"}),
-    url(r'edit$', edit_lists, kwargs={"template_name": "edit_lists.html"}),
+    url(r'edit$', edit_lists, kwargs={"template_name": "edit_lists.html"}, name="edit"),
 
     url(r'^checklist/static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': os.path.join(os.path.dirname(__file__), 'static')}),
 
+    # https://docs.djangoproject.com/en/dev/ref/contrib/admin/#reversing-admin-urls
     url(r'^admin/', include(admin.site.urls)),
 )

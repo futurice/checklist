@@ -29,7 +29,7 @@ def toggle_state_employee(request, action, employee_id):
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
     if unit == "Undefined":
-        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+        return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     employee = get_object_or_404(Employee, pk=employee_id)
     if action == "delete":
         employee.deleted = not employee.deleted
@@ -42,28 +42,26 @@ def employeelist(request, template_name, list_id):
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
     if unit == "Undefined":
-        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+        return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     list = Checklist.objects.get(id=list_id)
     employees = Employee.objects.filter(listname=list_id,deleted=False,archived=False)
     employees_archived = Employee.objects.filter(listname=list_id,deleted=False,archived=True)
 
     for employee in employees:
-        employee.total_count = len(ChecklistItem.objects.filter(listname=employee.listname))
-        employee.done_count = len(EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True))
-        employee.your_total_count = len(ChecklistItem.objects.filter(listname=employee.listname, unit=unit))
-        employee.your_done_count = len(EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=unit, value=True))
+        employee.total_count = ChecklistItem.objects.filter(listname=employee.listname).count()
+        employee.done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True).count()
+        employee.your_total_count = ChecklistItem.objects.filter(listname=employee.listname, unit=unit).count()
+        employee.your_done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=unit, value=True).count()
         if employee.supervisor == username:
             employee.your_employee = True
 
     for employee in employees_archived:
-        employee.total_count = len(ChecklistItem.objects.filter(listname=employee.listname))
-        employee.done_count = len(EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True))
-        employee.your_total_count = len(ChecklistItem.objects.filter(listname=employee.listname, unit=unit))
-        employee.your_done_count = len(EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=unit, value=True))
+        employee.total_count = ChecklistItem.objects.filter(listname=employee.listname).count()
+        employee.done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True).count()
+        employee.your_total_count = ChecklistItem.objects.filter(listname=employee.listname, unit=unit).count()
+        employee.your_done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=unit, value=True).count()
         if employee.supervisor == username:
             employee.your_employee = True
-
-#    (employee_item, created) = EmployeeItem.objects.get_or_create(employee=employee, item=listitem, listname=employee.listname)
 
     return render_to_response(template_name, {'listname': list.listname, 'employees': employees, 'archived': employees_archived }, context_instance=RequestContext(request))
 
@@ -88,7 +86,7 @@ def employeeview(request, template_name, employee_id):
     unit = determine_group(username)
     if employee.ldap_account != username:
         if unit == "Undefined":
-            return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+            return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     items_yours = ChecklistItem.objects.filter(listname=employee.listname.id).filter(unit=unit)
     items_others = ChecklistItem.objects.filter(listname=employee.listname.id).exclude(unit=unit)
 
@@ -111,7 +109,7 @@ def update_employeelist(request, template_name, employee_id, item_id):
     unit = determine_group(username)
     if employee.ldap_account != username:
         if unit == "Undefined":
-            return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+            return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
 
     if "checkbox" in request.POST.keys():
         if request.POST["checkbox"] == 'on' or request.POST["checkbox"] == 'true' or request.POST["checkbox"] == "checked":
@@ -137,7 +135,7 @@ def update_employeeinfo(request, template_name, employee_id):
     unit = determine_group(username)
     if employee.ldap_account != username:
         if unit == "Undefined":
-            return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+            return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     if request.method == 'POST':
         formset = EmployeeHeader(request.POST, instance=employee)
         if formset.is_valid():
@@ -152,7 +150,7 @@ def new_employee(request, template_name):
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
     if unit == "Undefined":
-        return render_to_response("unauthorized.html", {}, context_instance=RequestContext(request))
+        return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     if request.method == 'POST': # If the form has been submitted...
         form = NewEmployee(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass

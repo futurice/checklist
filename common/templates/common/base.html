@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>{% load staticfiles %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <link href="https://cdn.futurice.com/bootstrap/latest/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -15,20 +14,17 @@
       }
     </style>
     <link href="https://cdn.futurice.com/bootstrap/latest/css/bootstrap-responsive.css" rel="stylesheet">
-
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-        <link href="https://cdn.futurice.com/css/jquery-ui-1.8.4.css" rel="stylesheet" type="text/css"> 
-	<link href="/checklist/static/screen.css" rel="stylesheet" type="text/css">
-        <script type="text/javascript" src="https://cdn.futurice.com/js/jquery-1.7.1.min.js"></script> 
-        <script type="text/javascript" src="https://cdn.futurice.com/js/jquery-ui-1.8.4.min.js"></script> 
-        <script type="text/javascript" src="https://cdn.futurice.com/js/jquery.dataTables-1.7.6.min.js"></script> 
-        <script type="text/javascript" src="https://cdn.futurice.com/js/jquery.default-value-1.0.js"></script> 
-        <script type="text/javascript" src="https://cdn.futurice.com/js/futuservice.js"></script> 
-
-<script type="text/javascript" src="/checklist/static/jquery.autosave.js"></script>
+    <link href="https://cdn.futurice.com/css/jquery-ui-1.8.4.css" rel="stylesheet" type="text/css"> 
+    <link href="{% static "common/screen.css" %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://cdn.futurice.com/js/jquery-1.7.1.min.js"></script> 
+    <script type="text/javascript" src="https://cdn.futurice.com/js/jquery-ui-1.8.4.min.js"></script> 
+    <script type="text/javascript" src="https://cdn.futurice.com/js/jquery.dataTables-1.7.6.min.js"></script> 
+    <script type="text/javascript" src="https://cdn.futurice.com/js/jquery.default-value-1.0.js"></script> 
+    <script type="text/javascript" src="https://cdn.futurice.com/js/futuservice.js"></script> 
+    <script type="text/javascript" src="{% static "common/jquery.autosave.js" %}"></script>
 {% block header %}
 {% endblock %}
 
@@ -44,18 +40,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/checklist/">Checklist</a>
+          <a class="brand" href="{% url "index" %}">Checklist</a>
           <div class="nav-collapse">
             <ul class="nav">
-				<li><a href="/checklist/listview/1">New (FI)</a></li> 
-				<li><a href="/checklist/listview/2">Leaving (FI)</a></li> 
-				<li><a href="/checklist/listview/3">New (DE)</a></li> 
-				<li><a href="/checklist/listview/4">Leaving (DE)</a></li> 
-				<li><a href="/checklist/listview/5">Leaving expat</a></li> 
-				<li><a href="/checklist/listview/6">Returning expat</a></li> 
-				<li><a href="/checklist/new_employee">Add Employee</a></li> 
-				<li><a href="/checklist/edit">Edit items</a></li>
-				<li><a href="/checklist/admin/employee/userpermissions/">Edit permissions</a></li>
+                <li><a href="{% url "employeelist" 1 %}">New (FI)</a></li> 
+				<li><a href="{% url "employeelist" 2 %}">Leaving (FI)</a></li> 
+				<li><a href="{% url "employeelist" 3 %}">New (DE)</a></li> 
+				<li><a href="{% url "employeelist" 4 %}">Leaving (DE)</a></li> 
+				<li><a href="{% url "employeelist" 5 %}">Leaving expat</a></li> 
+				<li><a href="{% url "employeelist" 6 %}">Returning expat</a></li> 
+                <li><a href="{% url "new_employee" %}">Add Employee</a></li> 
+                <li><a href="{% url "edit" %}">Edit items</a></li>
+                <li><a href="{% url "admin:employee_employeeitem_changelist" %}">Edit permissions</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
