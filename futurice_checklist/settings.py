@@ -28,6 +28,8 @@ INSTALLED_APPS = (
     'employee',
     'editlist',
     'reminders',
+
+    'django_extensions',
     #'south',
     #'raven.contrib.django',
 )
