@@ -64,8 +64,11 @@ DATABASES = {
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates/'),
 )
-TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS +\
-('employee.context_processors.get_userinfo', 'employee.context_processors.get_reminders',)
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'employee.context_processors.get_userinfo',
+    'employee.context_processors.get_reminders',
+    'employee.context_processors.get_checklists',
+    )
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
