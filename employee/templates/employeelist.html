@@ -25,7 +25,7 @@
  <tr class="{% if employee.your_employee %}your_employee{%endif%} {% if employee.eta < 0 %} old{% else %} new{% endif %}">
   <td>{% ifnotequal employee.employee_state 'A' %}{{ employee.employee_state }}{% endifnotequal %}</td>
   <td>{{ employee.location }}</td>
-  <td><a href="/checklist/employeeview/{{ employee.id }}">{{ employee.name }}</a></td>
+  <td><a href="{% url "employeeview" employee.id %}">{{ employee.name }}</a></td>
   <td>{{ employee.start_date|date:"Y-m-d" }}</td>
   <td><i class="{% if employee.confirmed %}icon-ok{% else %}icon-remove{% endif %}"></i></td>
   <td>{{ employee.eta }} day{{ employee.eta|pluralize}}</td>
@@ -56,7 +56,7 @@
  <tr {% if employee.your_employee %}class="your_employee"{%endif%}>
   <td>{% ifnotequal employee.employee_state 'A' %}{{ employee.employee_state }}{% endifnotequal %}</td>
   <td>{{ employee.location }}</td>
-  <td><a href="/checklist/employeeview/{{ employee.id }}">{{ employee.name }}</a></td>
+  <td><a href="{% url "employeeview" employee.id %}">{{ employee.name }}</a></td>
   <td>{{ employee.start_date|date:"Y-m-d" }}</td>
   <td><i class="{% if employee.confirmed %}icon-ok{% else %}icon-remove{% endif %}"></i></td>
   <td>{{ employee.eta }} day{{ employee.eta|pluralize}}</td>
