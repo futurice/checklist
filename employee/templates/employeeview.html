@@ -83,6 +83,7 @@ $(document).ready(function(){
 
 {% for listitem in listitems_yours %}
 <form method="post" action="{% url "update_employee" employee.id listitem.id %}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
+{% csrf_token %}
 <div class="dwrap">
     <div class="dwrap_saving"><img src="{% static "common/blank.png" %}" id="progress_{{ listitem.id }}"></div>
 <div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
@@ -99,6 +100,7 @@ $(document).ready(function(){
 
 {% for listitem in listitems_others %}
 <form method="post" action="{% url "update_employee" employee.id listitem.id %}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
+{% csrf_token %}
 <div class="dwrap">
 <div class="dwrap_saving"><img src="{% static "common/blank.png" %}" id="progress_{{ listitem.id }}"></div>
 <div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>

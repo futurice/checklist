@@ -11,8 +11,8 @@
 <h1>Your items</h1>
 
 <ul>
-{% for list in my_items %}
-<li><a href="{% url "employeeview" list.id %}">{{ list.listname }} - {{ list.start_date }}</a></li>
+{% for empl in my_items %}
+<li><a href="{% url 'employeeview' employee_id=empl.id %}">{{ empl.listname }} - {{ empl.start_date }}</a></li>
 {% endfor %}
 </ul>
 
