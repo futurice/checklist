@@ -5,6 +5,7 @@
 
 <div style="margin-top: 1em"></div>
 <form method="post" action="{% url "reminder_delete" list.id %}">
+{% csrf_token %}
 <table>
 <tr><td><a href="{% url "reminder_view" list.id %}" class="btn btn-primary">Cancel</a></td><td><input type="submit" value="Delete" class="btn btn-danger"></td></tr>
 </table>

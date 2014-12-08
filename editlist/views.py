@@ -2,6 +2,7 @@ from django.template import RequestContext, loader
 from django.contrib.auth import get_backends
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 #from django.template import Context, loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -57,7 +58,8 @@ def edit_list_item(request, action, item_id, list_id, template_name):
             form = DeleteForm(request.POST)
             if form.is_valid():
                 ChecklistItem.objects.get(id=item_id).delete()
-                return HttpResponseRedirect("/checklist/edit/%s" % list_id)
+                url = reverse("edit_list", kwargs = {'list_id': list_id})
+                return HttpResponseRedirect(url)
             else:
                 return HttpResponse404()
         try:
@@ -78,7 +80,11 @@ def edit_list_item(request, action, item_id, list_id, template_name):
                 except:
                     largest_order = 0
                 item.save()
-                return HttpResponseRedirect("/checklist/edit/%s/edit/%s" % (list_id, item.id))
+                url = reverse("edit_list_item", kwargs = {
+                    'list_id': list_id,
+                    'item_id': item.id,
+                })
+                return HttpResponseRedirect(url)
             item.save()
 
     else:

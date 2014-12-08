@@ -25,6 +25,7 @@ $(document).ready(function() {
 
 <div style="margin-top: 1em"></div>
 <form method="post" action="{% url "reminder_edit" list.id %}">
+{% csrf_token %}
 <table>
 {{ form }}
 <tr><th></th><td><input type="submit" value="Save"></td></tr>
