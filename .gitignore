@@ -1,0 +1,7 @@
+# Python virtual environment (however you prefer to name it)
+/env/
+/venv/
+
+*.pyc
+
+/data.sqlite

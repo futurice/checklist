@@ -1,8 +1,9 @@
 from django.template import RequestContext, loader
 from django.contrib.auth import get_backends
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
 from django.shortcuts import redirect, render, render_to_response, get_object_or_404
@@ -36,7 +37,8 @@ def toggle_state_employee(request, action, employee_id):
     if action == "archive":
         employee.archived = not employee.archived
     employee.save()
-    return HttpResponseRedirect('/checklist/employeeview/%s' % employee.id)
+    url = reverse('employeeview', kwargs={'employee_id': employee.id})
+    return HttpResponseRedirect(url)
 
 def employeelist(request, template_name, list_id):
     username = request.META["REMOTE_USER"]
@@ -156,7 +158,8 @@ def new_employee(request, template_name):
         if form.is_valid(): # All validation rules pass
             employee = form.save(commit=False)
             employee.save()
-            return HttpResponseRedirect('/checklist/employeeview/%s' % employee.id) # Redirect after POST
+            url = reverse('employeeview', kwargs={'employee_id': employee.id})
+            return HttpResponseRedirect(url) # Redirect after POST
     else:
         form = NewEmployee() # An unbound form
 
