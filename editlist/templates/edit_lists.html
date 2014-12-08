@@ -5,7 +5,7 @@
 
 <ul>
 {% for list in lists %}
- <li><a href="/checklist/edit/{{ list.id }}">{{ list.listname }}</a></li>
+<li><a href="{% url "edit_list" list.id %}">{{ list.listname }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

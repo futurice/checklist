@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<p><a href="/checklist/reminders/edit/{{ alist.id }}" class="btn btn-primary">Edit</a> <a href="/checklist/reminders/delete/{{ alist.id }}" class="btn btn-danger">Delete</a></p>
+<p><a href="{% url "reminder_edit" alist.id %}" class="btn btn-primary">Edit</a> <a href="{% url "reminder_delete" alist.id %}" class="btn btn-danger">Delete</a></p>
 <h1>{{ alist.title }}</h1>
 
 {{ markdown|safe}}

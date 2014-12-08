@@ -12,7 +12,7 @@
 
 <ul>
 {% for list in my_items %}
-<li><a href="/checklist/employeeview/{{ list.id }}">{{ list.listname }} - {{ list.start_date }}</a></li>
+<li><a href="{% url "employeeview" list.id %}">{{ list.listname }} - {{ list.start_date }}</a></li>
 {% endfor %}
 </ul>
 
@@ -23,7 +23,7 @@
 
 <ul>
 {% for list in lists %}
- <li><a href="/checklist/listview/{{ list.id }}">{{ list.listname }}</a></li>
+<li><a href="{% url "employeelist" list.id %}">{{ list.listname }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

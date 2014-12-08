@@ -10,7 +10,7 @@
 <h1>Add new employee to checklist</h1>
 
 <table>
-<form action="/checklist/new_employee" method="post">
+<form action="{% url "new_employee" %}" method="post">
 {% csrf_token %}
 {{ form }}
 <tr>

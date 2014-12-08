@@ -7,6 +7,7 @@
 	#sortable li span { position: absolute; margin-left: -1.3em; }
 	</style>
 	<script>
+    var EDIT_CHECK_URL = '{% url "edit_check" list.id %}';
 	$(function() {
 		$( "#sortable" ).sortable({update: function() {
                      $(this).find(".ui-state-default").each(function(i) {
@@ -29,7 +30,7 @@
                   $("#checklist_order_form").submit();
                 });
                 $("#add_new").click(function() {
-                  window.location.href = "/checklist/edit/{{ list.id }}/add";
+                  window.location.href = EDIT_CHECK_URL;
                 });
 	});
 	</script>
@@ -48,14 +49,14 @@ Add new item
 
 <div style="margin-top: 1em"></div>
 <div style="display: none;">
-<form id="checklist_order_form" method="post" action="/checklist/edit/{{ list.id }}">
+<form id="checklist_order_form" method="post" action="{% url "edit_list" list.id %}">
 {{ form }}
 </form>
 </div>
 <div class="row6">
 <ul id="sortable">
 {% for item in items %}
- <li class="ui-state-default" id="{{ item.id }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a href="/checklist/edit/{{ list.id }}/edit/{{ item.id }}">{{ item.itemname }} ({{ item.unit }})</a></li>
+<li class="ui-state-default" id="{{ item.id }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a href="{% url "edit_list_item" list.id item.id %}">{{ item.itemname }} ({{ item.unit }})</a></li>
 {% endfor %}
 </ul>
 </div>

@@ -13,12 +13,12 @@
 
 <h2>Reminder lists</h2>
 
-<p><a href="/checklist/reminders/create" class="btn btn-primary">Create new list</a>
+<p><a href="{% url "reminder_create" %}" class="btn btn-primary">Create new list</a>
 </p>
 
 <ul>
 {% for list in lists %}
- <li><a href="/checklist/reminders/{{ list.id }}">{{ list.title }}</a></li>
+<li><a href="{% url "reminder_view" list.id %}">{{ list.title }}</a></li>
 {% empty %}
 <li>No lists available</li>
 {% endfor %}
