@@ -13,6 +13,7 @@ from employee.models import Checklist, ChecklistItem, Employee, EmployeeItem, Us
 from employee.util import determine_group
 
 from datetime import date
+import itertools
 import json
 
 def indexview(request):
@@ -46,10 +47,11 @@ def employeelist(request, template_name, list_id):
     if unit == "Undefined":
         return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     list = Checklist.objects.get(id=list_id)
-    employees = Employee.objects.filter(listname=list_id,deleted=False,archived=False)
-    employees_archived = Employee.objects.filter(listname=list_id,deleted=False,archived=True)
+    all_employees = Employee.objects.filter(listname=list_id, deleted=False)
+    employees_unarchived = all_employees.filter(archived=False)
+    employees_archived = all_employees.filter(archived=True)
 
-    for employee in employees:
+    for employee in itertools.chain(employees_unarchived, employees_archived):
         employee.total_count = ChecklistItem.objects.filter(listname=employee.listname).count()
         employee.done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True).count()
         employee.your_total_count = ChecklistItem.objects.filter(listname=employee.listname, unit=unit).count()
@@ -57,15 +59,7 @@ def employeelist(request, template_name, list_id):
         if employee.supervisor == username:
             employee.your_employee = True
 
-    for employee in employees_archived:
-        employee.total_count = ChecklistItem.objects.filter(listname=employee.listname).count()
-        employee.done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True).count()
-        employee.your_total_count = ChecklistItem.objects.filter(listname=employee.listname, unit=unit).count()
-        employee.your_done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=unit, value=True).count()
-        if employee.supervisor == username:
-            employee.your_employee = True
-
-    return render_to_response(template_name, {'listname': list.listname, 'employees': employees, 'archived': employees_archived }, context_instance=RequestContext(request))
+    return render_to_response(template_name, {'listname': list.listname, 'employees': employees_unarchived, 'archived': employees_archived}, context_instance=RequestContext(request))
 
 
 def __combine_lists(employee_dict, items):
