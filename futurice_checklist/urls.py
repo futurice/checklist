@@ -23,7 +23,7 @@ urlpatterns = patterns('',
     url(r'^reminders$', reminderhome, kwargs={"template_name": "home.html"}, name="reminders"),
     url(r'^reminders/create$', remindercreate, kwargs={"template_name": "edit.html"}, name="reminder_create"),
     url(r'^reminders/edit/(?P<list_id>[0-9]+)$', reminderedit, kwargs={"template_name": "edit.html"}, name="reminder_edit"),
-    url(r'^reminders/delete/(?P<list_id>[0-9]+)$', reminderdelete, kwargs={"template_name": "reminders/delete.html"}, name="reminder_delete"),
+    url(r'^reminders/delete/(?P<list_id>[0-9]+)$', reminderdelete, kwargs={"template_name": "delete.html"}, name="reminder_delete"),
     url(r'^reminders/(?P<list_id>[0-9]+)$', reminderview, kwargs={"template_name": "view.html"}, name="reminder_view"),
 
     url(r'^checklist/static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': os.path.join(os.path.dirname(__file__), 'static')}),

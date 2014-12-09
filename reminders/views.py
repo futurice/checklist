@@ -2,6 +2,7 @@ from django.template import RequestContext, loader
 from django.contrib.auth import get_backends
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
@@ -34,7 +35,8 @@ def reminderhome(request, template_name):
 def remindercreate(request, template_name):
     list = ReminderList(title="New list", content="")
     list.save()
-    return HttpResponseRedirect("/checklist/reminders/edit/%s" % list.id)
+    url = reverse("reminder_edit", kwargs={'list_id': list.id})
+    return HttpResponseRedirect(url)
 
 def reminderview(request, list_id, template_name):
     ret = {}
@@ -49,7 +51,7 @@ def reminderdelete(request, list_id, template_name):
     alist = ReminderList.objects.get(id=list_id)
     if request.method == 'POST':
         alist.delete()
-        return HttpResponseRedirect("/checklist/reminders")
+        return HttpResponseRedirect(reverse("reminders"))
     ret["list"] = alist
     return render_to_response(template_name, ret, context_instance=RequestContext(request))
 
@@ -60,7 +62,8 @@ def reminderedit(request, list_id, template_name):
         form = ReminderForm(request.POST, instance=alist)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect("/checklist/reminders/%s" % alist.id)
+            url = reverse("reminder_view", kwargs={'list_id': alist.id})
+            return HttpResponseRedirect(url)
     else:
         form = ReminderForm(instance=alist)
     ret["form"] = form
