@@ -78,37 +78,10 @@ $(document).ready(function(){
 </form>
 
 <h1>Your items</h1>
-
 <p>Please note: additional items in list below this (<b>Other items</b>) may also apply to you. You should not ignore it.</p>
-
-{% for listitem in listitems_yours %}
-<form method="post" action="{% url "update_employee" employee.id listitem.id %}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
-{% csrf_token %}
-<div class="dwrap">
-    <div class="dwrap_saving"><img src="{% static "common/blank.png" %}" id="progress_{{ listitem.id }}"></div>
-<div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
-<div class="dwrap_2"><small>{{ listitem.unit }}</small></div>
-<div class="dwrap_3">{{ listitem.itemname }}</div>
-<div class="dwrap_4">{% if listitem.textbox %}<input  type="textbox" value="{{ listitem.textvalue }}" name="textbox" id="textbox">{% endif %}</div>
-</div>
-</form>
-{% endfor %}
-
-<div style="clear:both;margin-top:2em;"></div>
+{% include "employee_listitems.html" with employee=employee listitems=listitems_yours only %}
 
 <h1>Other items</h1>
+{% include "employee_listitems.html" with employee=employee listitems=listitems_others only %}
 
-{% for listitem in listitems_others %}
-<form method="post" action="{% url "update_employee" employee.id listitem.id %}" class="autosave form_listitem" id="form_{{ listitem.id }}" name="form_{{ listitem.id }}">
-{% csrf_token %}
-<div class="dwrap">
-<div class="dwrap_saving"><img src="{% static "common/blank.png" %}" id="progress_{{ listitem.id }}"></div>
-<div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
-<div class="dwrap_2"><small>{{ listitem.unit }}</small></div>
-<div class="dwrap_3">{{ listitem.itemname }}</div>
-<div class="dwrap_4">{% if listitem.textbox %}<input  type="textbox" value="{{ listitem.textvalue }}" name="textbox" id="textbox">{% endif %}</div>
-</div>
-</form>
-{% endfor %}
-<div style="clear:both;margin-top:2em;"></div>
 {% endblock %}
