@@ -35,9 +35,20 @@ tr.your_employee {
  border: 1px;
  float: left;
 }
+.dwrap_3 > a.all_without {
+ /*visibility: hidden;*/
+ font-size: 2em;
+}
+.dwrap:hover a.all_without {
+ /*visibility: initial;*/
+}
 .dwrap_4 {
  width: 165px;
  border: 1px;
  float: left;
  margin-left: 5px;
+}
+
+input.without_item_textbox {
+ width: 10em;
 }

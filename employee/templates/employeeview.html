@@ -79,9 +79,9 @@ $(document).ready(function(){
 
 <h1>Your items</h1>
 <p>Please note: additional items in list below this (<b>Other items</b>) may also apply to you. You should not ignore it.</p>
-{% include "employee_listitems.html" with employee=employee listitems=listitems_yours only %}
+{% include "employee_listitems.html" with employee=employee listitems=listitems_yours csrf_token=csrf_token only %}
 
 <h1>Other items</h1>
-{% include "employee_listitems.html" with employee=employee listitems=listitems_others only %}
+{% include "employee_listitems.html" with employee=employee listitems=listitems_others csrf_token=csrf_token only %}
 
 {% endblock %}

@@ -1,13 +1,57 @@
 {% extends "common/base.html" %}
+{% load staticfiles %}
 
 {% block content %}
 
-<h1 class="page-header">{{ listname }}</h1>
+<h1 class="page-header">{{ chklist.name }}</h1>
 
 <h2>Active employees</h2>
-{% include "employeetable.html" with employees=employees archived=False only %}
+{% include "employeetable.html" with employees=employees archived=False without_item=without_item chklist=chklist csrf_token=csrf_token only %}
 
 <h2>Archived employees</h2>
-{% include "employeetable.html" with employees=archived archived=True only %}
+{% include "employeetable.html" with employees=archived archived=True without_item=without_item chklist=chklist csrf_token=csrf_token only %}
+
+<script type="text/javascript">
+var BLANK = "{% static "common/transparent.png" %}";
+var OK = "{% static "common/ok.png" %}";
+var SPINNER = "{% static "common/spinner14.gif" %}";
+
+var timeouts = Array();
+
+function switch_blank(node) {
+    $(node).attr("src", BLANK);
+}
+
+$(document).ready(function() {
+  function get_autosave_options(empl_id) {
+    return {
+      grouped: false,
+      send: function(data) {
+        var idname = "#progress_"+empl_id;
+        $(idname).attr("src", SPINNER);
+      },
+      success: function(data) {
+        if (data.success == true) {
+          var idname = "#progress_"+empl_id;
+          $(idname).attr("src", OK);
+          if (typeof timeouts[idname] != 'undefined') {
+            clearTimeout(timeouts[idname]);
+          }
+          timeouts[idname] = setTimeout("switch_blank('"+idname+"');", 1500);
+        } else {
+          console.log("fail");
+        }
+      }
+    };
+  }
+
+  {% for empl in employees %}
+    $("#form_{{empl.id}}").autosave(get_autosave_options({{empl.id}}));
+  {% endfor %}
+  {% for empl in archived %}
+    $("#form_{{empl.id}}").autosave(get_autosave_options({{empl.id}}));
+  {% endfor %}
+});
+</script>
 
 {% endblock %}

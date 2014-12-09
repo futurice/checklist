@@ -41,13 +41,23 @@ def toggle_state_employee(request, action, employee_id):
     url = reverse('employeeview', kwargs={'employee_id': employee.id})
     return HttpResponseRedirect(url)
 
-def employeelist(request, template_name, list_id):
+def employeelist(request, template_name, list_id, without_item_id=None):
     username = request.META["REMOTE_USER"]
     unit = determine_group(username)
     if unit == "Undefined":
         return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
-    list = Checklist.objects.get(id=list_id)
+    chklist = Checklist.objects.get(id=list_id)
     all_employees = Employee.objects.filter(listname=list_id, deleted=False)
+
+    # exclude employees who have this item ticked
+    without_item = None
+    if without_item_id is not None:
+        without_item = ChecklistItem.objects.get(id=without_item_id)
+        empl_id_with_item = all_employees.filter(
+                employeeitem__item_id=without_item_id,
+                employeeitem__value=True).values('id')
+        all_employees = all_employees.exclude(id__in=empl_id_with_item)
+
     employees_unarchived = all_employees.filter(archived=False)
     employees_archived = all_employees.filter(archived=True)
 
@@ -58,8 +68,19 @@ def employeelist(request, template_name, list_id):
         employee.your_done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=unit, value=True).count()
         if employee.supervisor == username:
             employee.your_employee = True
+        try:
+            employee.textvalue = EmployeeItem.objects.get(
+                    employee_id=employee.id, item=without_item,
+                    listname = employee.listname).textvalue
+        except EmployeeItem.DoesNotExist:
+            pass
 
-    return render_to_response(template_name, {'listname': list.listname, 'employees': employees_unarchived, 'archived': employees_archived}, context_instance=RequestContext(request))
+    return render_to_response(template_name, {
+        'chklist': chklist,
+        'employees': employees_unarchived,
+        'archived': employees_archived,
+        'without_item': without_item,
+    }, context_instance=RequestContext(request))
 
 
 def __combine_lists(employee_dict, items):

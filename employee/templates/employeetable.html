@@ -1,7 +1,10 @@
 {% comment %}
     Employee table used by employeelist.html.
-    Arguments: employees (list of custom objects), archived (bool)
+    Arguments: employees (list of custom objects), archived (bool),
+        without_item (ChecklistItem), chklist (Checklist), csrf_token.
 {% endcomment %}
+
+{% load staticfiles %}
 
 <table class="table {% if archived %}table-striped{% endif %} table-condensed">
 <thead>
@@ -9,6 +12,13 @@
   <th>S</th>
   <th>L</th>
   <th>Name</th>
+  {% if without_item %}
+    <th>
+      <a href="{% url 'employeelist' chklist.id %}" title="remove filter">
+        {{without_item.itemname}}
+      </a>
+    </th>
+  {% endif %}
   <th>
     {% if archived %}
       Start date
@@ -28,6 +38,19 @@
   <td>{% ifnotequal employee.employee_state 'A' %}{{ employee.employee_state }}{% endifnotequal %}</td>
   <td>{{ employee.location }}</td>
   <td><a href="{% url "employeeview" employee.id %}">{{ employee.name }}</a></td>
+  {% if without_item %}
+    <td>
+      <form method="post" action="{% url "update_employee" employee.id without_item.id %}" class="autosave" id="form_{{employee.id}}">
+        {% csrf_token %}
+        <img src="{% static 'common/transparent.png' %}" id="progress_{{employee.id}}">
+        <input type="checkbox" name="checkbox">
+        {% if without_item.textbox %}
+            <input type="textbox" value="{{employee.textvalue}}"
+              name="textbox" class="without_item_textbox">
+        {% endif %}
+      </form>
+    </td>
+  {% endif %}
   <td>{{ employee.start_date|date:"Y-m-d" }}</td>
   <td><i class="{% if employee.confirmed %}icon-ok{% else %}icon-remove{% endif %}"></i></td>
   <td>{{ employee.eta }} day{{ employee.eta|pluralize}}</td>

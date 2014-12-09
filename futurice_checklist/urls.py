@@ -9,6 +9,7 @@ from reminders.views import reminderhome, remindercreate, reminderedit, reminder
 urlpatterns = patterns('',
     url(r'^$', indexview, name="index"),
     url(r'^listview/(?P<list_id>[0-9]+)$', employeelist, name='employeelist', kwargs={"template_name": "employeelist.html"}),
+    url(r'^listview/(?P<list_id>[0-9]+)/without/(?P<without_item_id>[0-9]+)$', employeelist, name='employeelist-without-item', kwargs={"template_name": "employeelist.html"}),
     url(r'^employeeview/(?P<employee_id>[0-9]+)$', employeeview, name='employeeview', kwargs={"template_name": "employeeview.html"}),
     url(r'^new_employee$', new_employee, name='new_employee', kwargs={"template_name": "new_employee.html"}),
     url(r'^update/employee/state/(?P<action>[a-z]+)/(?P<employee_id>[0-9]+)$', toggle_state_employee, name="x_employee"),
