@@ -1,6 +1,7 @@
 {% comment %}
     Employee list items table used by employeeview.html.
-    Arguments: employee (Employee), listitems (list of custom objects).
+    Arguments: employee (Employee), listitems (list of custom objects),
+        csrf_token.
 {% endcomment %}
 
 {% load staticfiles %}
@@ -12,7 +13,13 @@
     <div class="dwrap_saving"><img src="{% static "common/blank.png" %}" id="progress_{{ listitem.id }}"></div>
 <div class="dwrap_1"><input type="checkbox" name="checkbox" {% if listitem.value %}checked="checked"{%endif%} id="checkbox"></div>
 <div class="dwrap_2"><small>{{ listitem.unit }}</small></div>
-<div class="dwrap_3">{{ listitem.itemname }}</div>
+<div class="dwrap_3">
+  <a class="all_without"
+     href="{% url 'employeelist-without-item' list_id=employee.listname.id without_item_id=listitem.id %}"
+     title="See everyone without {{listitem.itemname}}"
+  >⚙</a>
+  {{ listitem.itemname }}
+</div>
 <div class="dwrap_4">{% if listitem.textbox %}<input  type="textbox" value="{{ listitem.textvalue }}" name="textbox" id="textbox">{% endif %}</div>
 </div>
 </form>
