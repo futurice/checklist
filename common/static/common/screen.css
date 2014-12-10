@@ -37,7 +37,7 @@ tr.your_employee {
 }
 .dwrap_3 > a.all_without {
  /*visibility: hidden;*/
- font-size: 2em;
+ font-size: 1.5em;
 }
 .dwrap:hover a.all_without {
  /*visibility: initial;*/

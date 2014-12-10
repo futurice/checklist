@@ -71,7 +71,7 @@ def employeelist(request, template_name, list_id, without_item_id=None):
         try:
             employee.textvalue = EmployeeItem.objects.get(
                     employee_id=employee.id, item=without_item,
-                    listname = employee.listname).textvalue
+                    listname=employee.listname).textvalue
         except EmployeeItem.DoesNotExist:
             pass
 
