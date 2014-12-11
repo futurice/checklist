@@ -119,5 +119,10 @@ class EmployeeItem(models.Model):
     comment = models.CharField(max_length=200, blank=True)
     checkpoint_fired = models.BooleanField(default=False)
 
+    class Meta:
+        unique_together = (
+                ('listname', 'employee', 'item'),
+        )
+
     def __unicode__(self):
         return "%s: %s - %s" % (self.employee.name, self.item.itemname, self.value)
