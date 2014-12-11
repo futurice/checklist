@@ -96,6 +96,7 @@ class Employee(models.Model):
     email = models.CharField(max_length=150, blank=True, verbose_name="Contact email")
     email_notifications = models.BooleanField(default=True)
     supervisor = models.CharField(max_length=50, blank=True, verbose_name="Supervisor's LDAP account")
+    tribe = models.CharField(max_length=50, blank=True, verbose_name="Tribe")
     comments = models.TextField(max_length=1500, blank=True, verbose_name="Info")
 
     @property
