@@ -66,7 +66,7 @@ def ownership():
     sudo('chown -fR {owner} {basepath}/media'.format(**env))
     sudo('chown -fR {owner} {basepath}'.format(**env))
     with settings(hide('warnings',), warn_only=True):
-        sudo('chown -fR {owner} {basepath}/sqlite.db'.format(**env))
+        sudo('chown -fR {owner} {basepath}/data.sqlite'.format(**env))
 
 @task
 def dirs():
