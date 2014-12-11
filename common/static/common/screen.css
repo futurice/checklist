@@ -52,3 +52,8 @@ tr.your_employee {
 input.without_item_textbox {
  width: 10em;
 }
+
+/* used e.g. to remove the width that bootstrap sets for <textarea> */
+.width-initial {
+ width: initial;
+}

@@ -27,7 +27,8 @@ class EmployeeHeader(ModelForm):
             'listname': forms.HiddenInput(),
             'deleted': forms.HiddenInput(),
             'archived': forms.HiddenInput(),
-            'comments': forms.Textarea(attrs={'cols': 70, 'rows': 5})
+            'comments': forms.Textarea(attrs={
+                'cols': 70, 'rows': 5, 'class': 'width-initial'})
         }
         exclude = ()
 
