@@ -71,9 +71,8 @@ $(document).ready(function(){
 <form method="post" action="{% url "update_info" employee.id %}" class="autosave" id="form_header">
 {% csrf_token %}
 <legend><img src="{% static "common/blank.png" %}" id="progress_header"></legend>
-<table>
+<table id="employee-form-table">
 {{ employee_form }}
-
 </table>
 </form>
 
