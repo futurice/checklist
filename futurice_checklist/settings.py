@@ -3,18 +3,10 @@ import os
 PACKAGE_ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
 PROJECT_ROOT = os.path.normpath(PACKAGE_ROOT)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'f0$5!!_^+roj!^nru@@%9eku33-%miucnd-ekczegyph9&v*(d'
-
-# SECURITY WARNING: don't run with debug turned on in production!
+SECRET_KEY = ''
 DEBUG = True
-
 TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -46,14 +38,11 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'futurice_checklist.urls'
-
 WSGI_APPLICATION = 'futurice_checklist.wsgi.application'
-
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -77,13 +66,9 @@ CDN_URL = 'https://cdn.futurice.com/'
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -97,5 +82,11 @@ STATICFILES_DIRS = ()
 STATICFILES_FINDERS = DEFAULT_SETTINGS.STATICFILES_FINDERS
 
 #SENTRY_TESTING = True
-#SENTRY_KEY = 'js52wjdsoisr78fgs1f0g415safg1'
-#SENTRY_SERVERS = ['https://sentry.futurice.com/sentry/store/']
+#SENTRY_KEY = ''
+#SENTRY_SERVERS = ['']
+
+try:
+    # secrets here; needs to be somewhere in PYTHONPATH (eg. project-root, user-root)
+    from local_settings import *
+except Exception, e:
+    print "No local_settings configured, ignoring..."
