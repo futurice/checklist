@@ -25,7 +25,7 @@ env.project_root = '{www_root}/{project}/www'.format(**env)
 env.python_packages_dir = '{www_root}/{project}/dist'.format(**env)
 env.virtualenv = '{www_root}/{project}/venv'.format(**env)
 env.supervisor_conf_dir = '/etc/supervisor'
-env.branch = 'deployment'
+env.branch = 'master'
 
 #
 #
