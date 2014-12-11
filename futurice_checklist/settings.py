@@ -38,7 +38,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'futurice_checklist.urls'
-WSGI_APPLICATION = 'futurice_checklist.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 # Database
