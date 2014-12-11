@@ -1,139 +1,146 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'Checklist'
-        db.create_table('employee_checklist', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('listname', self.gf('django.db.models.fields.CharField')(max_length=200)),
-        ))
-        db.send_create_signal('employee', ['Checklist'])
-
-        # Adding model 'Checkpoint'
-        db.create_table('employee_checkpoint', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('deadline', self.gf('django.db.models.fields.IntegerField')()),
-            ('send_alarm', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        ))
-        db.send_create_signal('employee', ['Checkpoint'])
-
-        # Adding model 'ChecklistItem'
-        db.create_table('employee_checklistitem', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('listname', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['employee.Checklist'])),
-            ('itemname', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('textbox', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('order', self.gf('django.db.models.fields.IntegerField')()),
-            ('unit', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('item_pair', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['employee.ChecklistItem'], null=True, blank=True)),
-            ('checkpoint', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['employee.Checkpoint'], null=True, blank=True)),
-        ))
-        db.send_create_signal('employee', ['ChecklistItem'])
-
-        # Adding model 'Employee'
-        db.create_table('employee_employee', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('listname', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['employee.Checklist'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('start_date', self.gf('django.db.models.fields.DateField')()),
-            ('confirmed', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('archived', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('deleted', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('phone', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('email', self.gf('django.db.models.fields.CharField')(max_length=150, blank=True)),
-            ('email_notifications', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('supervisor', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
-            ('comments', self.gf('django.db.models.fields.TextField')(max_length=1500, blank=True)),
-        ))
-        db.send_create_signal('employee', ['Employee'])
-
-        # Adding model 'EmployeeItem'
-        db.create_table('employee_employeeitem', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('listname', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['employee.Checklist'])),
-            ('employee', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['employee.Employee'])),
-            ('item', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['employee.ChecklistItem'])),
-            ('value', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('textvalue', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
-            ('comment', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
-            ('checkpoint_fired', self.gf('django.db.models.fields.BooleanField')(default=False)),
-        ))
-        db.send_create_signal('employee', ['EmployeeItem'])
+from django.db import models, migrations
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'Checklist'
-        db.delete_table('employee_checklist')
+class Migration(migrations.Migration):
 
-        # Deleting model 'Checkpoint'
-        db.delete_table('employee_checkpoint')
+    dependencies = [
+    ]
 
-        # Deleting model 'ChecklistItem'
-        db.delete_table('employee_checklistitem')
-
-        # Deleting model 'Employee'
-        db.delete_table('employee_employee')
-
-        # Deleting model 'EmployeeItem'
-        db.delete_table('employee_employeeitem')
-
-
-    models = {
-        'employee.checklist': {
-            'Meta': {'object_name': 'Checklist'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'listname': ('django.db.models.fields.CharField', [], {'max_length': '200'})
-        },
-        'employee.checklistitem': {
-            'Meta': {'ordering': "('listname', 'unit', 'order', 'itemname')", 'object_name': 'ChecklistItem'},
-            'checkpoint': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['employee.Checkpoint']", 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'item_pair': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['employee.ChecklistItem']", 'null': 'True', 'blank': 'True'}),
-            'itemname': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'listname': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['employee.Checklist']"}),
-            'order': ('django.db.models.fields.IntegerField', [], {}),
-            'textbox': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'unit': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        'employee.checkpoint': {
-            'Meta': {'ordering': "('deadline',)", 'object_name': 'Checkpoint'},
-            'deadline': ('django.db.models.fields.IntegerField', [], {}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'send_alarm': ('django.db.models.fields.BooleanField', [], {'default': 'True'})
-        },
-        'employee.employee': {
-            'Meta': {'ordering': "('start_date', 'name')", 'object_name': 'Employee'},
-            'archived': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'comments': ('django.db.models.fields.TextField', [], {'max_length': '1500', 'blank': 'True'}),
-            'confirmed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'email': ('django.db.models.fields.CharField', [], {'max_length': '150', 'blank': 'True'}),
-            'email_notifications': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'listname': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['employee.Checklist']"}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'phone': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'start_date': ('django.db.models.fields.DateField', [], {}),
-            'supervisor': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'})
-        },
-        'employee.employeeitem': {
-            'Meta': {'object_name': 'EmployeeItem'},
-            'checkpoint_fired': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'comment': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
-            'employee': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['employee.Employee']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'item': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['employee.ChecklistItem']"}),
-            'listname': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['employee.Checklist']"}),
-            'textvalue': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'value': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
-        }
-    }
-
-    complete_apps = ['employee']
+    operations = [
+        migrations.CreateModel(
+            name='Checklist',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('listname', models.CharField(max_length=200)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ChecklistItem',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('itemname', models.CharField(help_text=b'Name shown in checklist', max_length=200, verbose_name=b'Item Name')),
+                ('textbox', models.BooleanField(default=False, help_text=b'Optional textbox next to checklist item for additional data', verbose_name=b'Enable Textbox')),
+                ('order', models.IntegerField(verbose_name=b'Order in Checklist')),
+                ('unit', models.CharField(help_text=b'Only single team: IT/HR admin/Finance/Supervisor', max_length=50, verbose_name=b'Responsible Team')),
+            ],
+            options={
+                'ordering': ('listname', 'unit', 'order', 'itemname'),
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Checkpoint',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('deadline', models.IntegerField(verbose_name=b'Days before starting date')),
+                ('send_alarm', models.BooleanField(default=True)),
+            ],
+            options={
+                'ordering': ('deadline',),
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Employee',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=100)),
+                ('ldap_account', models.CharField(max_length=10, blank=True)),
+                ('start_date', models.DateField(verbose_name=b'Date')),
+                ('confirmed', models.BooleanField(default=False, verbose_name=b'Confirmed/public')),
+                ('archived', models.BooleanField(default=False)),
+                ('deleted', models.BooleanField(default=False)),
+                ('employee_state', models.CharField(default=b'A', max_length=1, choices=[(b'S', b'Summer worker'), (b'P', b'Part-timer'), (b'T', b'Fixed-term'), (b'A', b'Permanent'), (b'E', b'External')])),
+                ('location', models.CharField(default=b'U', max_length=1, choices=[(b'U', b'Unknown'), (b'B', b'Berlin'), (b'D', b'Dusseldorf'), (b'H', b'Helsinki'), (b'L', b'Lontoo'), (b'T', b'Tampere')])),
+                ('phone', models.CharField(max_length=30, verbose_name=b'Phone number', blank=True)),
+                ('email', models.CharField(max_length=150, verbose_name=b'Contact email', blank=True)),
+                ('email_notifications', models.BooleanField(default=True)),
+                ('supervisor', models.CharField(max_length=50, verbose_name=b"Supervisor's LDAP account", blank=True)),
+                ('comments', models.TextField(max_length=1500, verbose_name=b'Info', blank=True)),
+                ('listname', models.ForeignKey(to='employee.Checklist')),
+            ],
+            options={
+                'ordering': ('start_date', 'name'),
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='EmployeeItem',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('value', models.BooleanField(default=False)),
+                ('textvalue', models.CharField(max_length=200, null=True, blank=True)),
+                ('comment', models.CharField(max_length=200, blank=True)),
+                ('checkpoint_fired', models.BooleanField(default=False)),
+                ('employee', models.ForeignKey(to='employee.Employee')),
+                ('item', models.ForeignKey(to='employee.ChecklistItem')),
+                ('listname', models.ForeignKey(to='employee.Checklist')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='EmployeeItemLog',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('value', models.BooleanField(default=False)),
+                ('textvalue', models.CharField(max_length=200, null=True, blank=True)),
+                ('employee', models.ForeignKey(to='employee.Employee')),
+                ('item', models.ForeignKey(to='employee.ChecklistItem')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='EmployeeLog',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('changes', models.TextField()),
+                ('employee', models.ForeignKey(to='employee.Employee')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='UserPermissions',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('username', models.CharField(max_length=50)),
+                ('group', models.CharField(default=b'UN', max_length=2, choices=[(b'IT', b'IT'), (b'HR', b'HR admin'), (b'SU', b'Supervisor'), (b'DH', b'HR'), (b'DA', b'ADMIN'), (b'DS', b'DE Supervisor'), (b'UN', b'Undefined')])),
+            ],
+            options={
+                'ordering': ('username',),
+                'verbose_name_plural': 'User permissions',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='checklistitem',
+            name='checkpoint',
+            field=models.ForeignKey(blank=True, to='employee.Checkpoint', help_text=b'Optional. Not yet implemented, just skip.', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='checklistitem',
+            name='item_pair',
+            field=models.ForeignKey(blank=True, to='employee.ChecklistItem', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='checklistitem',
+            name='listname',
+            field=models.ForeignKey(to='employee.Checklist'),
+            preserve_default=True,
+        ),
+    ]
