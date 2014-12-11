@@ -1,9 +1,48 @@
 {% extends "common/base.html" %}
 {% load staticfiles %}
 
+{% block header %}
+<link rel="stylesheet" href="{{CDN_URL}}js/select2-3.5.2/select2.css">
+<script src="{{CDN_URL}}js/select2-3.5.2/select2.js"></script>
+{% endblock %}
+
 {% block content %}
 
 <h1 class="page-header">{{ chklist.listname }}</h1>
+
+<h3>
+  Without:
+  <select id="without-item-selector">
+    <!-- empty <option> required by select2 to allow unselecting -->
+    <option></option>
+    {% for chkitem in chklist.checklistitem_set.filter %}
+      <option
+          value="{{chkitem.id}}"
+          href="{% url "employeelist-without-item" list_id=chklist.id without_item_id=chkitem.id %}"
+          {% if chkitem.id == without_item.id %}selected{% endif %}
+          >
+        {{chkitem.itemname}}
+      </option>
+    {% endfor %}
+  </select>
+</h3>
+
+<script type="text/javascript">
+$("#without-item-selector").select2({
+  placeholder: 'Select a checklist item',
+  allowClear: true
+}).on('change', function(e) {
+  var href;
+  if (!e.val) {
+    href = '{% url "employeelist" list_id=chklist.id %}';
+  } else {
+    var sel = e.target;
+    var option = sel[sel.selectedIndex];
+    href = option.getAttribute('href');
+  }
+  window.location.href = href;
+});
+</script>
 
 <h2>Active employees</h2>
 {% include "employeetable.html" with employees=employees archived=False without_item=without_item chklist=chklist csrf_token=csrf_token only %}

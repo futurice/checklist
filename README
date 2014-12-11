@@ -1,0 +1,4 @@
+Create lists of check-items from list templates
+
+Uses a CDN (see CDN_URL in futurice_checklist/settings.py) for front-end
+libraries such as http://ivaynberg.github.io/select2/

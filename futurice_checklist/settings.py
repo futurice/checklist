@@ -68,7 +68,10 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'employee.context_processors.get_userinfo',
     'employee.context_processors.get_reminders',
     'employee.context_processors.get_checklists',
+    'common.context_processors.cdn',
     )
+
+CDN_URL = 'https://cdn.futurice.com/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
