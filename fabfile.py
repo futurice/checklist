@@ -48,9 +48,9 @@ def deploy():
     install_python_packages()
     
     # anything that depends on requirements under here
+    prepare_hidden_files()
     prepare_node_packages()
     prepare_assets()
-    prepare_hidden_files()
 
     # South was added during project, and model additions go through it now.
     #manage('syncdb --noinput')
@@ -85,8 +85,8 @@ def setup():
     synchronize_python_packages()
     create_virtualenv()
     install_python_packages()
-    prepare_hidden_files()
 
+    prepare_hidden_files()
     prepare_node_packages()
     prepare_assets()
 
