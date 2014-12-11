@@ -5,3 +5,4 @@
 *.pyc
 
 /data.sqlite
+local_settings.py
