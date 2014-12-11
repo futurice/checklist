@@ -94,7 +94,7 @@ def setup():
 
 @task
 def prepare_hidden_files():
-    sudo('cp /root/{project}/local_settings.py {project_root}/'.format(**env))
+    sudo('cp /root/{project}/local_settings.py {project_root}/{project}/'.format(**env))
 
 # @task
 # def check():
