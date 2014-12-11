@@ -1,0 +1,18 @@
+generate:
+
+- js/base.js:
+    source:
+    - common/static/common/jquery.autosave.js
+    uglify.bin: jsmin
+
+- css/base.css:
+    source:
+    - common/static/common/screen.css
+
+output.directory: static
+output.hashed: true
+output.manifest: assets.json
+
+profile.dev:
+    css.compress: false
+    js.compress: false
