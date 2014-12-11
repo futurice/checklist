@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1 class="page-header">{{ chklist.name }}</h1>
+<h1 class="page-header">{{ chklist.listname }}</h1>
 
 <h2>Active employees</h2>
 {% include "employeetable.html" with employees=employees archived=False without_item=without_item chklist=chklist csrf_token=csrf_token only %}
