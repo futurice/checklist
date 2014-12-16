@@ -57,6 +57,9 @@ Add new item
 <div class="row6">
 <ul id="sortable">
 {% for item in items %}
+  {% comment %}
+    Don't use the markdown_itemname here.
+  {% endcomment %}
 <li class="ui-state-default" id="{{ item.id }}"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a href="{% url "edit_list_item" list.id item.id %}">{{ item.itemname }} ({{ item.unit }})</a></li>
 {% endfor %}
 </ul>

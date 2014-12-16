@@ -91,6 +91,7 @@ def __combine_lists(employee_dict, items):
             d["value"] = employee_dict[item.id].value
             d["textvalue"] = employee_dict[item.id].textvalue
         d["itemname"] = item.itemname
+        d["markdown_itemname"] = item.markdown_itemname()
         d["textbox"] = item.textbox
         d["id"] = item.id
         d["unit"] = item.unit

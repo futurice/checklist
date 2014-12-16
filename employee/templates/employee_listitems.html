@@ -18,7 +18,7 @@
      href="{% url 'employeelist-without-item' list_id=employee.listname.id without_item_id=listitem.id %}"
      title="See everyone without {{listitem.itemname}}"
   >⚙</a>
-  {{ listitem.itemname }}
+  {{ listitem.markdown_itemname|safe }}
 </div>
 <div class="dwrap_4">{% if listitem.textbox %}<input  type="textbox" value="{{ listitem.textvalue }}" name="textbox" id="textbox">{% endif %}</div>
 </div>

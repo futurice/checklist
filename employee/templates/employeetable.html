@@ -14,8 +14,9 @@
   <th>Name</th>
   {% if without_item %}
     <th>
+      {{without_item.markdown_itemname|safe}}
       <a href="{% url 'employeelist' chklist.id %}" title="remove filter">
-        {{without_item.itemname}}
+        <i class="icon-remove"></i>
       </a>
     </th>
   {% endif %}
