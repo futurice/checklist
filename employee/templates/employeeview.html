@@ -68,7 +68,7 @@ $(document).ready(function(){
 <a href="{% url "x_employee" "delete" employee.id %}" id="delete_user" class="btn btn-danger">Delete</a>
 {% endif %}
 
-<form method="post" action="{% url "update_info" employee.id %}" class="autosave" id="form_header">
+<form method="post" action="{% url "update_info" employee.id %}" class="autosave" id="form_header" autocomplete="off">
 {% csrf_token %}
 <legend><img src="{% static "common/blank.png" %}" id="progress_header"></legend>
 <table id="employee-form-table">
