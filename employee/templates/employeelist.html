@@ -45,10 +45,10 @@ $("#without-item-selector").select2({
 </script>
 
 <h2>Active employees</h2>
-{% include "employeetable.html" with employees=employees archived=False without_item=without_item chklist=chklist csrf_token=csrf_token only %}
+{% include "employeetable.html" with employees=employees archived=False without_item=without_item without_item_url=without_item_url csrf_token=csrf_token only %}
 
 <h2>Archived employees</h2>
-{% include "employeetable.html" with employees=archived archived=True without_item=without_item chklist=chklist csrf_token=csrf_token only %}
+{% include "employeetable.html" with employees=archived archived=True without_item=without_item without_item_url=without_item_url csrf_token=csrf_token only %}
 
 <script type="text/javascript">
 var BLANK = "{% static "common/transparent.png" %}";

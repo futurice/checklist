@@ -1,7 +1,8 @@
 {% comment %}
     Employee table used by employeelist.html.
     Arguments: employees (list of custom objects), archived (bool),
-        without_item (ChecklistItem), chklist (Checklist), csrf_token.
+        show_list_name (bool),
+        without_item (ChecklistItem), without_item_url, csrf_token.
 {% endcomment %}
 
 {% load staticfiles %}
@@ -15,10 +16,13 @@
   {% if without_item %}
     <th>
       {{without_item.markdown_itemname|safe}}
-      <a href="{% url 'employeelist' chklist.id %}" title="remove filter">
+      <a href="{{without_item_url}}" title="remove filter">
         <i class="icon-remove"></i>
       </a>
     </th>
+  {% endif %}
+  {% if show_list_name %}
+    <th>List</th>
   {% endif %}
   <th>
     {% if archived %}
@@ -52,6 +56,14 @@
       </form>
     </td>
   {% endif %}
+
+  {% if show_list_name %}
+    <td>
+      <a href="{% url "employeelist" list_id=employee.listname.id %}"
+         >{{employee.listname.listname}}</a>
+    </td>
+  {% endif %}
+
   <td>{{ employee.start_date|date:"Y-m-d" }}</td>
   <td><i class="{% if employee.confirmed %}icon-ok{% else %}icon-remove{% endif %}"></i></td>
   <td>{{ employee.eta }} day{{ employee.eta|pluralize}}</td>
