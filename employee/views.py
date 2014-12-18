@@ -16,15 +16,41 @@ from datetime import date
 import itertools
 import json
 
+
+def fill_employee_extra(employee, viewer_username, viewer_unit):
+    """
+    Add extra fields to the Employee object.
+
+    employee - Employee object
+    viewer_username - the username of the viewer (performing the web request)
+    viewer_unit - string returned by determine_group(...)
+    """
+    employee.total_count = ChecklistItem.objects.filter(listname=employee.listname).count()
+    employee.done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True).count()
+    employee.your_total_count = ChecklistItem.objects.filter(listname=employee.listname, unit=viewer_unit).count()
+    employee.your_done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=viewer_unit, value=True).count()
+    if employee.supervisor == viewer_username:
+        employee.your_employee = True
+
 def indexview(request):
     ret = {}
-    unit = determine_group(request.user.username)
+    username = request.META["REMOTE_USER"]
+    unit = determine_group(username)
     if unit != "Undefined":
         ret["authorized"] = True
     lists = Checklist.objects.all()
     my_items = Employee.objects.filter(ldap_account=request.user.username).order_by("start_date")
     ret["my_items"] = my_items
     ret["lists"] = lists
+
+    all_employees = Employee.objects.filter(deleted=False)
+    employees_unarchived = all_employees.filter(archived=False)
+    employees_archived = all_employees.filter(archived=True)
+    for employee in itertools.chain(employees_unarchived, employees_archived):
+        fill_employee_extra(employee, username, unit)
+    ret['employees'] = employees_unarchived
+    ret['archived'] = employees_archived
+
     return render(request, 'index.html', ret)
 
 def toggle_state_employee(request, action, employee_id):
@@ -62,12 +88,7 @@ def employeelist(request, template_name, list_id, without_item_id=None):
     employees_archived = all_employees.filter(archived=True)
 
     for employee in itertools.chain(employees_unarchived, employees_archived):
-        employee.total_count = ChecklistItem.objects.filter(listname=employee.listname).count()
-        employee.done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, value=True).count()
-        employee.your_total_count = ChecklistItem.objects.filter(listname=employee.listname, unit=unit).count()
-        employee.your_done_count = EmployeeItem.objects.filter(employee=employee, listname=employee.listname, item__unit=unit, value=True).count()
-        if employee.supervisor == username:
-            employee.your_employee = True
+        fill_employee_extra(employee, username, unit)
         try:
             employee.textvalue = EmployeeItem.objects.get(
                     employee_id=employee.id, item=without_item,
@@ -80,6 +101,8 @@ def employeelist(request, template_name, list_id, without_item_id=None):
         'employees': employees_unarchived,
         'archived': employees_archived,
         'without_item': without_item,
+        'without_item_url': reverse('employeelist',
+            kwargs={'list_id': chklist.id}),
     }, context_instance=RequestContext(request))
 
 

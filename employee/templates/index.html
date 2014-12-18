@@ -19,13 +19,11 @@
 {% endif %}
 
 {% if authorized %}
-<h1>Select list</h1>
+<h2>Active employees</h2>
+{% include "employeetable.html" with employees=employees archived=False show_list_name=True csrf_token=csrf_token only %}
 
-<ul>
-{% for list in lists %}
-<li><a href="{% url "employeelist" list.id %}">{{ list.listname }}</a></li>
-{% endfor %}
-</ul>
+<h2>Archived employees</h2>
+{% include "employeetable.html" with employees=archived archived=True show_list_name=True csrf_token=csrf_token only %}
 {% endif %}
 
 </div>
