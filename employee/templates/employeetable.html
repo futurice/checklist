@@ -41,7 +41,7 @@
   <td><a href="{% url "employeeview" employee.id %}">{{ employee.name }}</a></td>
   {% if without_item %}
     <td>
-      <form method="post" action="{% url "update_employee" employee.id without_item.id %}" class="autosave" id="form_{{employee.id}}">
+      <form method="post" action="{% url "update_employee" employee.id without_item.id %}" class="autosave" id="form_{{employee.id}}" autocomplete="off">
         {% csrf_token %}
         <img src="{% static 'common/transparent.png' %}" id="progress_{{employee.id}}">
         <input type="checkbox" name="checkbox">
