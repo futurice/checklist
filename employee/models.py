@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+import markdown
 
 USER_GROUPS = (
    ("IT", "IT"),
@@ -61,6 +62,13 @@ class ChecklistItem(models.Model):
     unit = models.CharField(max_length=50, verbose_name="Responsible Team", help_text="Only single team: IT/HR admin/Finance/Supervisor")
     item_pair = models.ForeignKey('ChecklistItem', null=True, blank=True)
     checkpoint = models.ForeignKey('Checkpoint', null=True, blank=True, help_text="Optional. Not yet implemented, just skip.")
+
+    def markdown_itemname(self):
+        result = markdown.markdown(self.itemname)
+        p_start, p_end = '<p>', '</p>'
+        if result.startswith(p_start) and result.endswith(p_end):
+            result = result[len(p_start):-len(p_end)]
+        return result
 
     def __unicode__(self):
         return self.itemname
