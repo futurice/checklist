@@ -9,22 +9,16 @@ from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
 
 from employee.models import Employee, EmployeeItem, UserPermissions
+from employee.util import determine_group
 from datetime import date
 import json
 
 from reminders.models import ReminderList
 from reminders.forms import ReminderForm
 
-def determine_group(username):
-    user = UserPermissions.objects.filter(username=username)
-    for item in user:
-        return item.group
-    return "Undefined"
-
 def reminderhome(request, template_name):
     ret = {}
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
+    unit = determine_group(request.user.username)
     if unit != "Undefined":
         ret["authorized"] = True
     lists = ReminderList.objects.all()

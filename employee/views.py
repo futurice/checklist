@@ -34,8 +34,7 @@ def fill_employee_extra(employee, viewer_username, viewer_unit):
 
 def indexview(request):
     ret = {}
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
+    unit = determine_group(request.user.username)
     if unit != "Undefined":
         ret["authorized"] = True
     lists = Checklist.objects.all()
@@ -47,15 +46,14 @@ def indexview(request):
     employees_unarchived = all_employees.filter(archived=False)
     employees_archived = all_employees.filter(archived=True)
     for employee in itertools.chain(employees_unarchived, employees_archived):
-        fill_employee_extra(employee, username, unit)
+        fill_employee_extra(employee, request.user.username, unit)
     ret['employees'] = employees_unarchived
     ret['archived'] = employees_archived
 
     return render(request, 'index.html', ret)
 
 def toggle_state_employee(request, action, employee_id):
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
+    unit = determine_group(request.user.username)
     if unit == "Undefined":
         return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     employee = get_object_or_404(Employee, pk=employee_id)
@@ -68,8 +66,7 @@ def toggle_state_employee(request, action, employee_id):
     return HttpResponseRedirect(url)
 
 def employeelist(request, template_name, list_id, without_item_id=None):
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
+    unit = determine_group(request.user.username)
     if unit == "Undefined":
         return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     chklist = Checklist.objects.get(id=list_id)
@@ -88,7 +85,7 @@ def employeelist(request, template_name, list_id, without_item_id=None):
     employees_archived = all_employees.filter(archived=True)
 
     for employee in itertools.chain(employees_unarchived, employees_archived):
-        fill_employee_extra(employee, username, unit)
+        fill_employee_extra(employee, request.user.username, unit)
         try:
             employee.textvalue = EmployeeItem.objects.get(
                     employee_id=employee.id, item=without_item,
@@ -123,9 +120,8 @@ def __combine_lists(employee_dict, items):
 
 def employeeview(request, template_name, employee_id):
     employee = Employee.objects.get(id=employee_id)
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
-    if employee.ldap_account != username:
+    unit = determine_group(request.user.username)
+    if employee.ldap_account != request.user.username:
         if unit == "Undefined":
             return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     items_yours = ChecklistItem.objects.filter(listname=employee.listname.id).filter(unit=unit)
@@ -146,9 +142,8 @@ def update_employeelist(request, template_name, employee_id, item_id):
     employee = Employee.objects.get(id=employee_id)
     listitem = ChecklistItem.objects.get(id=item_id)
     (employee_item, created) = EmployeeItem.objects.get_or_create(employee=employee, item=listitem, listname=employee.listname)
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
-    if employee.ldap_account != username:
+    unit = determine_group(request.user.username)
+    if employee.ldap_account != request.user.username:
         if unit == "Undefined":
             return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
 
@@ -172,9 +167,8 @@ def update_employeelist(request, template_name, employee_id, item_id):
 def update_employeeinfo(request, template_name, employee_id):
     employee = Employee.objects.get(id=employee_id)
     keys = {"success": True, "form": "headerform", "key": "header"}
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
-    if employee.ldap_account != username:
+    unit = determine_group(request.user.username)
+    if employee.ldap_account != request.user.username:
         if unit == "Undefined":
             return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     if request.method == 'POST':
@@ -188,8 +182,7 @@ def update_employeeinfo(request, template_name, employee_id):
     return render_to_response(template_name, {"keys": keys}, context_instance=RequestContext(request))
 
 def new_employee(request, template_name):
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
+    unit = determine_group(request.user.username)
     if unit == "Undefined":
         return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     if request.method == 'POST': # If the form has been submitted...

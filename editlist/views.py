@@ -19,16 +19,14 @@ import json
 ListItemFormset = modelformset_factory(ChecklistItem, fields=("order",))
 
 def edit_lists(request, template_name):
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
+    unit = determine_group(request.user.username)
     if unit == "Undefined":
         return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     lists = Checklist.objects.all()
     return render_to_response(template_name, {"lists": lists}, context_instance=RequestContext(request))
 
 def edit_list(request, list_id, template_name):
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
+    unit = determine_group(request.user.username)
     if unit == "Undefined":
         return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     list = Checklist.objects.get(id=list_id)
@@ -48,8 +46,7 @@ def edit_list(request, list_id, template_name):
     return render_to_response(template_name, {"list": list, "items": items, "form": form}, context_instance=RequestContext(request))
 
 def edit_list_item(request, action, item_id, list_id, template_name):
-    username = request.META["REMOTE_USER"]
-    unit = determine_group(username)
+    unit = determine_group(request.user.username)
     if unit == "Undefined":
         return render_to_response("common/unauthorized.html", {}, context_instance=RequestContext(request))
     list = Checklist.objects.get(id=list_id)

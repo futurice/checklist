@@ -3,9 +3,8 @@ from employee.models import Checklist
 from reminders.models import ReminderList
 
 def get_userinfo(request):
-    username = request.META["REMOTE_USER"]
-    group = determine_group(username)
-    return {'username': username, 'group': group}
+    group = determine_group(request.user.username)
+    return {'username': request.user.username, 'group': group}
 
 def get_reminders(request):
     reminders = ReminderList.objects.all()
