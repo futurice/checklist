@@ -6,6 +6,7 @@ libraries such as http://ivaynberg.github.io/select2/
 
 # usage
 pip install -r requirements.txt
+./manage.py test
 REMOTE_USER=username ./manage.py runserver
 
 # deployment
