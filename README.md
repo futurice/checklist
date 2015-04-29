@@ -15,4 +15,4 @@ REMOTE_USER=username ./manage.py runserver
 ```
 
 ## Deployment
-`fab -H <server> deploy`
+`[USER=remote_username] fab -H <server> deploy`
