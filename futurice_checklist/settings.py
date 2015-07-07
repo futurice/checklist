@@ -4,9 +4,10 @@ PACKAGE_ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
 PROJECT_ROOT = os.path.normpath(PACKAGE_ROOT)
 
 SECRET_KEY = os.getenv('SECRET_KEY', '')
-DEBUG = True
-TEMPLATE_DEBUG = True
-ALLOWED_HOSTS = []
+DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
+TEMPLATE_DEBUG = os.getenv('TEMPLATE_DEBUG', 'false').lower() == 'true'
+allowed_hosts = os.getenv('ALLOWED_HOSTS', '*')
+ALLOWED_HOSTS = allowed_hosts.split(',')
 
 INSTALLED_APPS = (
     'django.contrib.admin',
