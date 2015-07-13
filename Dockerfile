@@ -72,4 +72,4 @@ EXPOSE 8000
 
 # Default startup command
 USER root
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
