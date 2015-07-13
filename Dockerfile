@@ -36,8 +36,8 @@ RUN apt-get update && apt-get install -y wget \
 # Set timezone to Europe/Helsinki
 RUN echo 'Europe/Helsinki' > /etc/timezone && rm /etc/localtime && ln -s /usr/share/zoneinfo/Europe/Helsinki /etc/localtime
 
-# Install gunicorn
-RUN pip install gunicorn
+# Install uwsgi
+RUN pip install uwsgi
 
 # Set the locale
 RUN locale-gen en_US.UTF-8
