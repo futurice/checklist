@@ -78,15 +78,17 @@ EMPLOYEE_STATES= (
     ('P', 'Part-timer'),
     ('T', 'Fixed-term'),
     ('A', 'Permanent'),
-    ('E', 'External'))
+    ('E', 'External')
+)
 
 LOCATIONS = (
     ('U', 'Unknown'),
     ('B', 'Berlin'),
-    ('D', 'Dusseldorf'),
     ('H', 'Helsinki'),
     ('L', 'Lontoo'),
-    ('T', 'Tampere'),
+    ('M', 'Munich'),
+    ('S', 'Stockholm'),
+    ('T', 'Tampere')
 )
 
 class Employee(models.Model):
@@ -94,7 +96,7 @@ class Employee(models.Model):
     name = models.CharField(max_length=100)
     ldap_account = models.CharField(max_length=10, blank=True)
     start_date = models.DateField(verbose_name="Date")
-    confirmed = models.BooleanField(default=False, verbose_name="Confirmed/public")
+    confirmed = models.BooleanField(default=False, verbose_name="Confirmed")
     archived = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     
@@ -102,8 +104,8 @@ class Employee(models.Model):
     location = models.CharField(max_length=1, choices=LOCATIONS, default='U')
     phone = models.CharField(max_length=30, blank=True, verbose_name="Phone number")
     email = models.CharField(max_length=150, blank=True, verbose_name="Contact email")
-    email_notifications = models.BooleanField(default=True)
-    supervisor = models.CharField(max_length=50, blank=True, verbose_name="Supervisor's LDAP account")
+   # email_notifications = models.BooleanField(default=True)
+    supervisor = models.CharField(max_length=50, blank=True, verbose_name="Supervisor")
     tribe = models.CharField(max_length=50, blank=True, verbose_name="Tribe")
     comments = models.TextField(max_length=1500, blank=True, verbose_name="Info")
 
