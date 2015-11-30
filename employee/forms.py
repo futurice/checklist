@@ -30,7 +30,7 @@ class EmployeeHeader(ModelForm):
             'comments': forms.Textarea(attrs={
                 'cols': 70, 'rows': 5, 'class': 'width-initial'})
         }
-        exclude = ()
+        exclude = ('email_notifications',)
 
 class ListItemForm(ModelForm):
     class Meta:

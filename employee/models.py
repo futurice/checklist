@@ -78,7 +78,7 @@ EMPLOYEE_STATES= (
     ('P', 'Part-timer'),
     ('T', 'Fixed-term'),
     ('A', 'Permanent'),
-    ('E', 'External')
+    ('E', 'External'),
 )
 
 LOCATIONS = (
@@ -88,7 +88,7 @@ LOCATIONS = (
     ('L', 'Lontoo'),
     ('M', 'Munich'),
     ('S', 'Stockholm'),
-    ('T', 'Tampere')
+    ('T', 'Tampere'),
 )
 
 class Employee(models.Model):
@@ -104,7 +104,7 @@ class Employee(models.Model):
     location = models.CharField(max_length=1, choices=LOCATIONS, default='U')
     phone = models.CharField(max_length=30, blank=True, verbose_name="Phone number")
     email = models.CharField(max_length=150, blank=True, verbose_name="Contact email")
-   # email_notifications = models.BooleanField(default=True)
+    email_notifications = models.BooleanField(default=True)
     supervisor = models.CharField(max_length=50, blank=True, verbose_name="Supervisor")
     tribe = models.CharField(max_length=50, blank=True, verbose_name="Tribe")
     comments = models.TextField(max_length=1500, blank=True, verbose_name="Info")
